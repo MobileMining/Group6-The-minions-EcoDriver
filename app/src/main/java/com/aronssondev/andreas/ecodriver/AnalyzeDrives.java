@@ -1,12 +1,13 @@
 package com.aronssondev.andreas.ecodriver;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,6 +20,9 @@ public class AnalyzeDrives extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze_drives);
 
+        Button btnAdd = (Button) findViewById(R.id.btnAdd);
+
+        Button btnDelete = (Button) findViewById(R.id.btnDelete);
 
         String[] drives = {"Drive1", "Drive2", "Drive3"};
         ListAdapter drivesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drives);

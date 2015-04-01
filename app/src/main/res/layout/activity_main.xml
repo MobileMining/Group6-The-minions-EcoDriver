@@ -10,16 +10,16 @@
         android:layout_height="wrap_content"
         android:text="Track Driving"
         android:id="@+id/trackDriving_btn"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/analyzeDrives_btn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp" />
+        android:layout_marginBottom="78dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Analyze Drives"
         android:id="@+id/analyzeDrives_btn"
-        android:layout_below="@+id/trackDriving_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/trackDriving_btn" />
+
 </RelativeLayout>
