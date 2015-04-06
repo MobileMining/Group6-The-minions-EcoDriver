@@ -8,36 +8,96 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.util.Date;
+
+import SQLiteDatabase.DriveRecord;
+import SQLiteDatabase.DriveRecordsDataSource;
 
 
 public class AnalyzeDrives extends ActionBarActivity {
+
+    int mSelectedItemPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze_drives);
 
-        Button btnAdd = (Button) findViewById(R.id.btnAdd);
+        final DriveRecordsDataSource dataSource = new DriveRecordsDataSource(this);
+        dataSource.open();
 
-        Button btnDelete = (Button) findViewById(R.id.btnDelete);
+        //String[] drives = {"Drive1", "Drive2", "Drive3"};
+        final ArrayAdapter drivesAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                dataSource.getAllRecords());
 
-        String[] drives = {"Drive1", "Drive2", "Drive3"};
-        ListAdapter drivesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drives);
-        ListView drivesListView =  (ListView) findViewById(R.id.drivesListView);
+        final ListView drivesListView =  (ListView) findViewById(R.id.drivesListView);
         drivesListView.setAdapter(drivesAdapter);
 
-        drivesListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String drive = String.valueOf(parent.getItemAtPosition(position));
-                        Toast.makeText(AnalyzeDrives.this, drive, Toast.LENGTH_LONG).show();
+     //   drivesListView.setOnItemClickListener(
+     //           new AdapterView.OnItemClickListener() {
+     //               @Override
+     //               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+     //                   String drive = String.valueOf(parent.getItemAtPosition(position));
+     //                   Toast.makeText(AnalyzeDrives.this, drive, Toast.LENGTH_LONG).show();
+     //               }
+     //         }
+     //   );
+
+        mSelectedItemPos = -1;
+
+        drivesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                /*
+                if (view instanceof TextView) {
+                    TextView tv = (TextView)view;
+                    tv.setText(tv.getText().toString() + " Selected");
+
+                    if(mSelectedItemPos != -1) {
+                       Object preSelected = parent.get(mSelectedItemPos);
+                        if(preSelected instanceof TextView) {
+                            TextView preView = (TextView) preSelected;
+                            String preStr = preView.getText().toString();
+                            preView.setText(preStr.substring(0, preStr.length() - 9));
+                        }
                     }
+
+                    mSelectedItemPos = position;
                 }
-        );
+                */
+
+                mSelectedItemPos = position;
+            }
+        });
+
+
+        Button btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                DateFormat df = DateFormat.getDateTimeInstance();
+                String item = df.format(new Date());
+                dataSource.createRecord(item);
+                drivesAdapter.add(item);
+                mSelectedItemPos = -1;
+            }
+        });
+
+        Button btnDelete = (Button) findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                if(mSelectedItemPos != -1){
+                    DriveRecord dr = (DriveRecord) drivesAdapter.getItem(mSelectedItemPos);
+                    dataSource.deleteRecord(dr);
+                    drivesAdapter.remove(dr);
+                    mSelectedItemPos = -1;
+                }
+            }
+        });
     }
 
 
