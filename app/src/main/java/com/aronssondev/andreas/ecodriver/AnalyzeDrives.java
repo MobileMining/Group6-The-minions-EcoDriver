@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import SQLiteDatabase.DriveRecord;
 import SQLiteDatabase.DriveRecordsDataSource;
@@ -80,9 +81,17 @@ public class AnalyzeDrives extends ActionBarActivity {
         btnAdd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 DateFormat df = DateFormat.getDateTimeInstance();
-                String item = df.format(new Date());
-                dataSource.createRecord(item);
-                drivesAdapter.add(item);
+                String record = df.format(new Date());
+
+                String[] places = {"Stockholm", "Göteborg", "Malmö"};
+                Random rand = new Random();
+                String startPlace = places[rand.nextInt(3)];
+                String destination = places[rand.nextInt(3)];
+                DriveRecord dr = dataSource.createRecord(record, startPlace, destination,
+                        0, null, 0, 0, 0, 0);
+
+                drivesAdapter.add(dr);
+                drivesAdapter.notifyDataSetChanged();  //adapter has been changed.
                 mSelectedItemPos = -1;
             }
         });
