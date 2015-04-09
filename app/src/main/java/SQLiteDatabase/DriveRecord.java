@@ -98,6 +98,6 @@ public class DriveRecord {
     }
 
     public String toString(){
-        return driveRecord + " " + startPlace + " " + destination;
+        return driveRecord + " " + startPlace + " - " + destination;
     }
 }

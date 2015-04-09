@@ -1,17 +1,23 @@
 package com.aronssondev.andreas.ecodriver;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import SQLiteDatabase.DriveRecord;
@@ -22,6 +28,32 @@ public class AnalyzeDrives extends ActionBarActivity {
 
     int mSelectedItemPos;
 
+    private class DriveRecordAdapter extends ArrayAdapter<DriveRecord>{
+        private int resource;
+        private LayoutInflater inflater;
+        private Context context;
+
+        public DriveRecordAdapter(Context cxt, int resourceId, List<DriveRecord> objects){
+            super(cxt, resourceId, objects);
+            resource = resourceId;
+            inflater = LayoutInflater.from(cxt);
+            context = cxt;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent){
+            convertView = (LinearLayout) inflater.inflate(resource, null);
+            DriveRecord driveRecord = getItem(position);
+
+            TextView timeRecord = (TextView) convertView.findViewById(R.id.timeRecord);
+            timeRecord.setText(driveRecord.getDriveRecord());
+
+            TextView places = (TextView) convertView.findViewById(R.id.placeRecord);
+            places.setText(driveRecord.getStartPlace() + " - " + driveRecord.getDestination());
+
+            return convertView;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +63,13 @@ public class AnalyzeDrives extends ActionBarActivity {
         dataSource.open();
 
         //String[] drives = {"Drive1", "Drive2", "Drive3"};
-        final ArrayAdapter drivesAdapter = new ArrayAdapter<>(
+        final DriveRecordAdapter driveRecordAdapter = new DriveRecordAdapter(
                 this,
-                android.R.layout.simple_list_item_1,
+                R.layout.activity_analyze_drives_listview_row,
                 dataSource.getAllRecords());
 
         final ListView drivesListView =  (ListView) findViewById(R.id.drivesListView);
-        drivesListView.setAdapter(drivesAdapter);
+        drivesListView.setAdapter(driveRecordAdapter);
 
      //   drivesListView.setOnItemClickListener(
      //           new AdapterView.OnItemClickListener() {
@@ -83,15 +115,15 @@ public class AnalyzeDrives extends ActionBarActivity {
                 DateFormat df = DateFormat.getDateTimeInstance();
                 String record = df.format(new Date());
 
-                String[] places = {"Stockholm", "Göteborg", "Malmö"};
+                String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
                 Random rand = new Random();
-                String startPlace = places[rand.nextInt(3)];
-                String destination = places[rand.nextInt(3)];
+                String startPlace = places[rand.nextInt(7)];
+                String destination = places[rand.nextInt(7)];
                 DriveRecord dr = dataSource.createRecord(record, startPlace, destination,
                         0, null, 0, 0, 0, 0);
 
-                drivesAdapter.add(dr);
-                drivesAdapter.notifyDataSetChanged();  //adapter has been changed.
+                driveRecordAdapter.add(dr);
+                driveRecordAdapter.notifyDataSetChanged();  //adapter has been changed.
                 mSelectedItemPos = -1;
             }
         });
@@ -100,9 +132,9 @@ public class AnalyzeDrives extends ActionBarActivity {
         btnDelete.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 if(mSelectedItemPos != -1){
-                    DriveRecord dr = (DriveRecord) drivesAdapter.getItem(mSelectedItemPos);
+                    DriveRecord dr = (DriveRecord) driveRecordAdapter.getItem(mSelectedItemPos);
                     dataSource.deleteRecord(dr);
-                    drivesAdapter.remove(dr);
+                    driveRecordAdapter.remove(dr);
                     mSelectedItemPos = -1;
                 }
             }

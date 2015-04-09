@@ -62,12 +62,15 @@ public class DriveRecordsDataSource {
         values.put(MySQLiteHelper.COLUMN_AVGRPM, avgRPM);
         values.put(MySQLiteHelper.COLUMN_FUEL, fuelConsume);
         values.put(MySQLiteHelper.COLUMN_EMISSION, emission);
+
         long insertId = database.insert(MySQLiteHelper.TABLE_RECORDS, null, values);
+
         Cursor cursor = database.query(MySQLiteHelper.TABLE_RECORDS, allColumns,
                 MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         DriveRecord newRecord = cursorToRecord(cursor);
         cursor.close();
+
         return newRecord;
     }
 
