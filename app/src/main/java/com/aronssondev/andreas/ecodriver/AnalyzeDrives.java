@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +21,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import SQLiteDatabase.DriveRecord;
 import SQLiteDatabase.DriveRecordsDataSource;
@@ -26,7 +30,7 @@ import SQLiteDatabase.DriveRecordsDataSource;
 
 public class AnalyzeDrives extends ActionBarActivity {
 
-    int mSelectedItemPos;
+    Set<DriveRecord> mSelectedRecords = new TreeSet<DriveRecord>();
 
     private class DriveRecordAdapter extends ArrayAdapter<DriveRecord>{
         private int resource;
@@ -40,9 +44,23 @@ public class AnalyzeDrives extends ActionBarActivity {
             context = cxt;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(final int position, View convertView, ViewGroup parent){
             convertView = (LinearLayout) inflater.inflate(resource, null);
-            DriveRecord driveRecord = getItem(position);
+            final DriveRecord driveRecord = getItem(position);
+
+            CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+
+            if(mSelectedRecords.contains(driveRecord))
+                checkBox.setChecked(true);
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                        if(isChecked)
+                            mSelectedRecords.add(driveRecord);
+                        else
+                            mSelectedRecords.remove(driveRecord);
+                    }
+                });
 
             TextView timeRecord = (TextView) convertView.findViewById(R.id.timeRecord);
             timeRecord.setText(driveRecord.getDriveRecord());
@@ -81,8 +99,6 @@ public class AnalyzeDrives extends ActionBarActivity {
      //         }
      //   );
 
-        mSelectedItemPos = -1;
-
         drivesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
@@ -103,8 +119,6 @@ public class AnalyzeDrives extends ActionBarActivity {
                     mSelectedItemPos = position;
                 }
                 */
-
-                mSelectedItemPos = position;
             }
         });
 
@@ -124,19 +138,17 @@ public class AnalyzeDrives extends ActionBarActivity {
 
                 driveRecordAdapter.add(dr);
                 driveRecordAdapter.notifyDataSetChanged();  //adapter has been changed.
-                mSelectedItemPos = -1;
             }
         });
 
         Button btnDelete = (Button) findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                if(mSelectedItemPos != -1){
-                    DriveRecord dr = (DriveRecord) driveRecordAdapter.getItem(mSelectedItemPos);
+                for(DriveRecord dr : mSelectedRecords) {
                     dataSource.deleteRecord(dr);
                     driveRecordAdapter.remove(dr);
-                    mSelectedItemPos = -1;
                 }
+                mSelectedRecords.clear();
             }
         });
     }

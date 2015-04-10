@@ -4,7 +4,7 @@ package SQLiteDatabase;
  * Created by jied on 01/04/15.
  * Tuple of table in database.
  */
-public class DriveRecord {
+public class DriveRecord implements Comparable<DriveRecord> {
     private long id;
     private String driveRecord;
     private String startPlace;
@@ -16,6 +16,9 @@ public class DriveRecord {
     private long fuelConsume;
     private long emissionCO2;
 
+    public int compareTo(DriveRecord other) {
+        return (int)(id - other.id);
+    }
 
     public long getId(){
         return id;
