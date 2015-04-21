@@ -26,6 +26,10 @@
             android:name=".AnalyzeDrives"
             android:label="@string/title_activity_analyze_drives" >
         </activity>
+        <activity
+            android:name=".DriveDetails"
+            android:label="DriveDetails">
+        </activity>
     </application>
 
 </manifest>

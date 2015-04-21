@@ -1,6 +1,7 @@
 package com.aronssondev.andreas.ecodriver;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -80,7 +81,6 @@ public class AnalyzeDrives extends ActionBarActivity {
         final DriveRecordsDataSource dataSource = new DriveRecordsDataSource(this);
         dataSource.open();
 
-        //String[] drives = {"Drive1", "Drive2", "Drive3"};
         final DriveRecordAdapter driveRecordAdapter = new DriveRecordAdapter(
                 this,
                 R.layout.activity_analyze_drives_listview_row,
@@ -89,36 +89,21 @@ public class AnalyzeDrives extends ActionBarActivity {
         final ListView drivesListView =  (ListView) findViewById(R.id.drivesListView);
         drivesListView.setAdapter(driveRecordAdapter);
 
-     //   drivesListView.setOnItemClickListener(
-     //           new AdapterView.OnItemClickListener() {
-     //               @Override
-     //               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-     //                   String drive = String.valueOf(parent.getItemAtPosition(position));
-     //                   Toast.makeText(AnalyzeDrives.this, drive, Toast.LENGTH_LONG).show();
-     //               }
-     //         }
-     //   );
-
+     /*   drivesListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String drive = String.valueOf(parent.getItemAtPosition(position));
+                        Toast.makeText(AnalyzeDrives.this, drive, Toast.LENGTH_LONG).show();
+                    }
+              }
+        );
+*/
         drivesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                /*
-                if (view instanceof TextView) {
-                    TextView tv = (TextView)view;
-                    tv.setText(tv.getText().toString() + " Selected");
-
-                    if(mSelectedItemPos != -1) {
-                       Object preSelected = parent.get(mSelectedItemPos);
-                        if(preSelected instanceof TextView) {
-                            TextView preView = (TextView) preSelected;
-                            String preStr = preView.getText().toString();
-                            preView.setText(preStr.substring(0, preStr.length() - 9));
-                        }
-                    }
-
-                    mSelectedItemPos = position;
-                }
-                */
+                Intent intent = new Intent(view.getContext(), DriveDetails.class);
+                startActivityForResult(intent, 0);
             }
         });
 
