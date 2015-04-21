@@ -81,10 +81,6 @@ public class AnalyzeDrives extends ActionBarActivity {
         final DriveRecordsDataSource dataSource = new DriveRecordsDataSource(this);
         dataSource.open();
 
-<<<<<<< HEAD
-=======
-        //String[] drives = {"Drive1", "Drive2", "Drive3"}; Test
->>>>>>> 88251fc0993a26b6e0485483520468f666ea3b08
         final DriveRecordAdapter driveRecordAdapter = new DriveRecordAdapter(
                 this,
                 R.layout.activity_analyze_drives_listview_row,
