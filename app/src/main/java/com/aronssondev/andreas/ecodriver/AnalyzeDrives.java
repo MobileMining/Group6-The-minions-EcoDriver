@@ -33,6 +33,7 @@ public class AnalyzeDrives extends ActionBarActivity {
 
     Set<DriveRecord> mSelectedRecords = new TreeSet<DriveRecord>();
 
+    //Inner class for customized adapter for list view.
     private class DriveRecordAdapter extends ArrayAdapter<DriveRecord>{
         private int resource;
         private LayoutInflater inflater;
@@ -89,24 +90,16 @@ public class AnalyzeDrives extends ActionBarActivity {
         final ListView drivesListView =  (ListView) findViewById(R.id.drivesListView);
         drivesListView.setAdapter(driveRecordAdapter);
 
-     /*   drivesListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String drive = String.valueOf(parent.getItemAtPosition(position));
-                        Toast.makeText(AnalyzeDrives.this, drive, Toast.LENGTH_LONG).show();
-                    }
-              }
-        );
-*/
+        //Trigger activity DriveDetails by clicking item
         drivesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(view.getContext(), DriveDetails.class);
+                DriveRecord driveRecord = (DriveRecord) drivesListView.getItemAtPosition(position);
+                intent.putExtra("selectedRecord", driveRecord);
                 startActivityForResult(intent, 0);
             }
         });
-
 
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener(){

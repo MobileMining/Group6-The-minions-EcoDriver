@@ -1,178 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/driveDetail">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trip"
-        android:id="@+id/textViewTripTitle"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/abc_text_size_headline_material" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/driveDetail">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Trip Time"
-        android:id="@+id/textViewTripTime"
-        android:textSize="@dimen/abc_text_size_medium_material"
-        android:layout_below="@+id/textViewTripTitle"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trip"
+            android:id="@+id/textViewTripTitle"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/abc_text_size_headline_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TripTime"
-        android:id="@+id/textViewTT"
-        android:layout_marginStart="50dp"
-        android:layout_alignBottom="@+id/textViewTripTime"
-        android:layout_toEndOf="@+id/textViewTripTime" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Trip Time"
+            android:id="@+id/textViewTripTime"
+            android:textSize="@dimen/abc_text_size_menu_material"
+            android:layout_below="@+id/textViewTripTitle"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Duration"
-        android:id="@+id/textViewDuration"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material"
-        android:layout_below="@+id/textViewTripTime"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TripTime"
+            android:id="@+id/textViewTT"
+            android:layout_marginStart="50dp"
+            android:layout_alignBottom="@+id/textViewTripTime"
+            android:layout_toEndOf="@+id/textViewTripTime" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Duration"
-        android:id="@+id/textViewDur"
-        android:layout_alignBottom="@+id/textViewDuration"
-        android:layout_alignStart="@+id/textViewTT" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:id="@+id/textViewDuration"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material"
+            android:layout_below="@+id/textViewTripTime"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Distance"
-        android:id="@+id/textViewDistance"
-        android:layout_below="@+id/textViewDuration"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:id="@+id/textViewDur"
+            android:layout_alignBottom="@+id/textViewDuration"
+            android:layout_alignStart="@+id/textViewTT" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Distance"
-        android:id="@+id/textViewDis"
-        android:layout_alignBottom="@+id/textViewDistance"
-        android:layout_alignStart="@+id/textViewDur" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance"
+            android:id="@+id/textViewDistance"
+            android:layout_below="@+id/textViewDuration"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Avg Speed"
-        android:id="@+id/textViewAvgSpeed"
-        android:layout_below="@+id/textViewDis"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance"
+            android:id="@+id/textViewDis"
+            android:layout_alignBottom="@+id/textViewDistance"
+            android:layout_alignStart="@+id/textViewDur" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AvgSpeed"
-        android:id="@+id/textViewAS"
-        android:layout_alignBottom="@+id/textViewAvgSpeed"
-        android:layout_alignStart="@+id/textViewDis" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avg Speed"
+            android:id="@+id/textViewAvgSpeed"
+            android:layout_below="@+id/textViewDis"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Avg RPM"
-        android:id="@+id/textViewAvgRPM"
-        android:layout_below="@+id/textViewAS"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AvgSpeed"
+            android:id="@+id/textViewAS"
+            android:layout_alignBottom="@+id/textViewAvgSpeed"
+            android:layout_alignStart="@+id/textViewDis" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AvgRPM"
-        android:id="@+id/textViewAR"
-        android:layout_alignBottom="@+id/textViewAvgRPM"
-        android:layout_alignStart="@+id/textViewAS" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avg RPM"
+            android:id="@+id/textViewAvgRPM"
+            android:layout_below="@+id/textViewAS"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fuel Consume"
-        android:id="@+id/textViewFuel"
-        android:layout_below="@+id/textViewAvgRPM"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AvgRPM"
+            android:id="@+id/textViewAR"
+            android:layout_alignBottom="@+id/textViewAvgRPM"
+            android:layout_alignStart="@+id/textViewAS" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fuel"
-        android:id="@+id/textViewF"
-        android:layout_alignBottom="@+id/textViewFuel"
-        android:layout_alignStart="@+id/textViewAR" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fuel Consume"
+            android:id="@+id/textViewFuel"
+            android:layout_below="@+id/textViewAvgRPM"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Emission CO2"
-        android:id="@+id/textViewEmission"
-        android:layout_below="@+id/textViewFuel"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fuel"
+            android:id="@+id/textViewF"
+            android:layout_alignBottom="@+id/textViewFuel"
+            android:layout_alignStart="@+id/textViewAR" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Emission"
-        android:id="@+id/textViewE"
-        android:layout_alignBottom="@+id/textViewEmission"
-        android:layout_alignStart="@+id/textViewF" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emission CO2"
+            android:id="@+id/textViewEmission"
+            android:layout_below="@+id/textViewFuel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rating"
-        android:id="@+id/textViewRating"
-        android:layout_below="@+id/textViewE"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emission"
+            android:id="@+id/textViewE"
+            android:layout_alignBottom="@+id/textViewEmission"
+            android:layout_alignStart="@+id/textViewF" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rating"
-        android:id="@+id/textViewR"
-        android:layout_alignBottom="@+id/textViewRating"
-        android:layout_alignStart="@+id/textViewE" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating"
+            android:id="@+id/textViewRating"
+            android:layout_below="@+id/textViewE"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/abc_text_size_menu_material" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Route Display"
-        android:id="@+id/textViewRouteDisplay"
-        android:layout_marginTop="45dp"
-        android:textSize="@dimen/abc_text_size_large_material"
-        android:layout_below="@+id/textViewR"
-        android:layout_alignStart="@+id/textViewR" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating"
+            android:id="@+id/textViewR"
+            android:layout_alignBottom="@+id/textViewRating"
+            android:layout_alignStart="@+id/textViewE" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageViewRoute"
-        android:layout_toEndOf="@+id/textViewAS"
-        android:layout_below="@+id/textViewRouteDisplay" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route Display"
+            android:id="@+id/textViewRouteDisplay"
+            android:layout_marginTop="15dp"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:layout_below="@+id/textViewR"
+            android:layout_alignStart="@+id/textViewR" />
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:id="@+id/imageViewRoute"
+            android:src="@mipmap/gothenborg_stockholm"
+            android:layout_below="@+id/textViewRouteDisplay"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trip Logs"
+            android:id="@+id/textViewTripLogs"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:layout_marginTop="210dp"
+            android:layout_alignTop="@+id/imageViewRoute"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Trip Log"
+            android:id="@+id/textViewTL"
+            android:layout_below="@+id/textViewTripLogs"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+</ScrollView>

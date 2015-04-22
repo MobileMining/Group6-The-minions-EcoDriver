@@ -1,10 +1,13 @@
 package SQLiteDatabase;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by jied on 01/04/15.
  * Tuple of table in database.
  */
-public class DriveRecord implements Comparable<DriveRecord> {
+public class DriveRecord implements Comparable<DriveRecord>, Parcelable {
     private long id;
     private String driveRecord;
     private String startPlace;
@@ -103,4 +106,51 @@ public class DriveRecord implements Comparable<DriveRecord> {
     public String toString(){
         return driveRecord + " " + startPlace + " - " + destination;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(driveRecord);
+        dest.writeString(startPlace);
+        dest.writeString(destination);
+        dest.writeLong(distance);
+        dest.writeString(timeDuration);
+        dest.writeLong(avgSpeed);
+        dest.writeLong(avgRPM);
+        dest.writeLong(fuelConsume);
+        dest.writeLong(emissionCO2);
+    }
+
+    DriveRecord(Parcel source){
+        id = source.readLong();
+        driveRecord = source.readString();
+        startPlace = source.readString();
+        destination = source.readString();
+        distance = source.readLong();
+        timeDuration = source.readString();
+        avgSpeed = source.readLong();
+        avgRPM = source.readLong();
+        fuelConsume = source.readLong();
+        emissionCO2 = source.readLong();
+    }
+
+    DriveRecord(){}
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
+
+        @Override
+        public Object createFromParcel(Parcel source) {
+            return new DriveRecord(source);
+        }
+
+        @Override
+        public Object[] newArray(int size) {
+            return new DriveRecord[size];
+        }
+    };
 }
