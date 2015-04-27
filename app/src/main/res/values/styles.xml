@@ -2,6 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:typeface">sans</item>
         <!-- Customize your theme here. -->
     </style>
 
