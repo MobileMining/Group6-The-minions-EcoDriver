@@ -7,19 +7,23 @@ import android.os.Parcelable;
  * Created by jied on 01/04/15.
  * Tuple of table in database.
  */
-public class DriveRecord implements Comparable<DriveRecord>, Parcelable {
+public class Trip implements Comparable<Trip>, Parcelable {
     private long id;
-    private String driveRecord;
+    private String startTime;
+    private String endTime;
+    private String timeDuration;
+    private long startMileage;
+    private long endMileage;
+    private long distance;
     private String startPlace;
     private String destination;
-    private long distance;
-    private String timeDuration;
     private long avgSpeed;
     private long avgRPM;
     private long fuelConsume;
     private long emissionCO2;
+    private long rating;
 
-    public int compareTo(DriveRecord other) {
+    public int compareTo(Trip other) {
         return (int)(id - other.id);
     }
 
@@ -31,12 +35,52 @@ public class DriveRecord implements Comparable<DriveRecord>, Parcelable {
         this.id = id;
     }
 
-    public String getDriveRecord(){
-        return driveRecord;
+    public String getStartTime(){
+        return startTime;
     }
 
-    public void setDriveRecord(String driveRecord){
-        this.driveRecord = driveRecord;
+    public void setStartTime(String startTime){
+        this.startTime = startTime;
+    }
+
+    public String getEndTime(){
+        return endTime;
+    }
+
+    public void setEndTime(String endTime){
+        this.endTime = endTime;
+    }
+
+    public String getTimeDuration(){
+        return timeDuration;
+    }
+
+    public void setTimeDuration(String timeDuration){
+        this.timeDuration = timeDuration;
+    }
+
+    public long getStartMileage(){
+        return startMileage;
+    }
+
+    public void setStartMileage(long startMileage){
+        this.startMileage = startMileage;
+    }
+
+    public long getEndMileage(){
+        return endMileage;
+    }
+
+    public void setEndMileage(long endMileage){
+        this.endMileage = endMileage;
+    }
+
+    public long getDistance(){
+        return distance;
+    }
+
+    public void setDistance(long distance){
+        this.distance = distance;
     }
 
     public String getStartPlace(){
@@ -53,22 +97,6 @@ public class DriveRecord implements Comparable<DriveRecord>, Parcelable {
 
     public void setDestination(String destination){
         this.destination = destination;
-    }
-
-    public long getDistance(){
-        return distance;
-    }
-
-    public void setDistance(long distance){
-        this.distance = distance;
-    }
-
-    public String getTimeDuration(){
-        return timeDuration;
-    }
-
-    public void setTimeDuration(String timeDuration){
-        this.timeDuration = timeDuration;
     }
 
     public long getAvgSpeed(){
@@ -103,8 +131,16 @@ public class DriveRecord implements Comparable<DriveRecord>, Parcelable {
         this.emissionCO2 = emissionCO2;
     }
 
+    public long getRating(){
+        return rating;
+    }
+
+    public void setRating(long rating){
+        this.rating = rating;
+    }
+
     public String toString(){
-        return driveRecord + " " + startPlace + " - " + destination;
+        return startTime + " " + startPlace + " - " + destination;
     }
 
     @Override
@@ -115,42 +151,50 @@ public class DriveRecord implements Comparable<DriveRecord>, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeString(driveRecord);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
+        dest.writeString(timeDuration);
+        dest.writeLong(startMileage);
+        dest.writeLong(endMileage);
+        dest.writeLong(distance);
         dest.writeString(startPlace);
         dest.writeString(destination);
-        dest.writeLong(distance);
-        dest.writeString(timeDuration);
         dest.writeLong(avgSpeed);
         dest.writeLong(avgRPM);
         dest.writeLong(fuelConsume);
         dest.writeLong(emissionCO2);
+        dest.writeLong(rating);
     }
 
-    DriveRecord(Parcel source){
+    Trip(Parcel source){
         id = source.readLong();
-        driveRecord = source.readString();
+        startTime = source.readString();
+        endTime = source.readString();
+        timeDuration = source.readString();
+        startMileage = source.readLong();
+        endMileage = source.readLong();
+        distance = source.readLong();
         startPlace = source.readString();
         destination = source.readString();
-        distance = source.readLong();
-        timeDuration = source.readString();
         avgSpeed = source.readLong();
         avgRPM = source.readLong();
         fuelConsume = source.readLong();
         emissionCO2 = source.readLong();
+        rating = source.readLong();
     }
 
-    DriveRecord(){}
+    Trip(){}
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
 
         @Override
         public Object createFromParcel(Parcel source) {
-            return new DriveRecord(source);
+            return new Trip(source);
         }
 
         @Override
         public Object[] newArray(int size) {
-            return new DriveRecord[size];
+            return new Trip[size];
         }
     };
 }

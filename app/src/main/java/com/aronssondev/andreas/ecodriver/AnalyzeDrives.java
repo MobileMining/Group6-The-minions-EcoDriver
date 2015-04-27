@@ -25,21 +25,21 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import SQLiteDatabase.DriveRecord;
-import SQLiteDatabase.DriveRecordsDataSource;
+import SQLiteDatabase.DataSource;
+import SQLiteDatabase.Trip;
 
 
 public class AnalyzeDrives extends ActionBarActivity {
 
-    Set<DriveRecord> mSelectedRecords = new TreeSet<DriveRecord>();
+    Set<Trip> mSelectedTrips = new TreeSet<Trip>();
 
     //Inner class for customized adapter for list view.
-    private class DriveRecordAdapter extends ArrayAdapter<DriveRecord>{
+    private class TripAdapter extends ArrayAdapter<Trip>{
         private int resource;
         private LayoutInflater inflater;
         private Context context;
 
-        public DriveRecordAdapter(Context cxt, int resourceId, List<DriveRecord> objects){
+        public TripAdapter(Context cxt, int resourceId, List<Trip> objects){
             super(cxt, resourceId, objects);
             resource = resourceId;
             inflater = LayoutInflater.from(cxt);
@@ -48,27 +48,27 @@ public class AnalyzeDrives extends ActionBarActivity {
 
         public View getView(final int position, View convertView, ViewGroup parent){
             convertView = (LinearLayout) inflater.inflate(resource, null);
-            final DriveRecord driveRecord = getItem(position);
+            final Trip trip = getItem(position);
 
             CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
 
-            if(mSelectedRecords.contains(driveRecord))
+            if(mSelectedTrips.contains(trip))
                 checkBox.setChecked(true);
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton view, boolean isChecked) {
                         if(isChecked)
-                            mSelectedRecords.add(driveRecord);
+                            mSelectedTrips.add(trip);
                         else
-                            mSelectedRecords.remove(driveRecord);
+                            mSelectedTrips.remove(trip);
                     }
                 });
 
-            TextView timeRecord = (TextView) convertView.findViewById(R.id.timeRecord);
-            timeRecord.setText(driveRecord.getDriveRecord());
+            TextView startTime = (TextView) convertView.findViewById(R.id.timeRecord);
+            startTime.setText(trip.getStartTime());
 
             TextView places = (TextView) convertView.findViewById(R.id.placeRecord);
-            places.setText(driveRecord.getStartPlace() + " - " + driveRecord.getDestination());
+            places.setText(trip.getStartPlace() + " - " + trip.getDestination());
 
             return convertView;
         }
@@ -79,24 +79,24 @@ public class AnalyzeDrives extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze_drives);
 
-        final DriveRecordsDataSource dataSource = new DriveRecordsDataSource(this);
+        final DataSource dataSource = new DataSource(this);
         dataSource.open();
 
-        final DriveRecordAdapter driveRecordAdapter = new DriveRecordAdapter(
+        final TripAdapter tripAdapter = new TripAdapter(
                 this,
                 R.layout.activity_analyze_drives_listview_row,
-                dataSource.getAllRecords());
+                dataSource.getAllTrips());
 
-        final ListView drivesListView =  (ListView) findViewById(R.id.drivesListView);
-        drivesListView.setAdapter(driveRecordAdapter);
+        final ListView tripsListView =  (ListView) findViewById(R.id.drivesListView);
+        tripsListView.setAdapter(tripAdapter);
 
         //Trigger activity DriveDetails by clicking item
-        drivesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        tripsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(view.getContext(), DriveDetails.class);
-                DriveRecord driveRecord = (DriveRecord) drivesListView.getItemAtPosition(position);
-                intent.putExtra("selectedRecord", driveRecord);
+                Trip trip = (Trip) tripsListView.getItemAtPosition(position);
+                intent.putExtra("selectedTrip", trip);
                 startActivityForResult(intent, 0);
             }
         });
@@ -105,28 +105,28 @@ public class AnalyzeDrives extends ActionBarActivity {
         btnAdd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 DateFormat df = DateFormat.getDateTimeInstance();
-                String record = df.format(new Date());
+                String startTime = df.format(new Date());
 
                 String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
                 Random rand = new Random();
                 String startPlace = places[rand.nextInt(7)];
                 String destination = places[rand.nextInt(7)];
-                DriveRecord dr = dataSource.createRecord(record, startPlace, destination,
-                        0, null, 0, 0, 0, 0);
+                Trip trip = dataSource.createTrip(startTime, null, null, 0, 0, 0,
+                        startPlace, destination, 0, 0, 0, 0, 0);
 
-                driveRecordAdapter.add(dr);
-                driveRecordAdapter.notifyDataSetChanged();  //adapter has been changed.
+                tripAdapter.add(trip);
+                tripAdapter.notifyDataSetChanged();  //adapter has been changed.
             }
         });
 
         Button btnDelete = (Button) findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                for(DriveRecord dr : mSelectedRecords) {
-                    dataSource.deleteRecord(dr);
-                    driveRecordAdapter.remove(dr);
+                for(Trip trip : mSelectedTrips) {
+                    dataSource.deleteTrip(trip);
+                    tripAdapter.remove(trip);
                 }
-                mSelectedRecords.clear();
+                mSelectedTrips.clear();
             }
         });
     }

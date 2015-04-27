@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import SQLiteDatabase.DriveRecord;
+import SQLiteDatabase.Trip;
 
 /**
  * Created by jied on 21/04/15.
@@ -20,31 +20,31 @@ public class DriveDetails extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            DriveRecord driveRecord = extras.getParcelable("selectedRecord");
+            Trip trip = extras.getParcelable("selectedTrip");
 
             TextView tripTitle = (TextView) findViewById(R.id.textViewTripTitle);
-            tripTitle.setText("Trip of " + driveRecord.getStartPlace() + " - " + driveRecord.getDestination());
+            tripTitle.setText("Trip of " + trip.getStartPlace() + " - " + trip.getDestination());
 
             TextView tripTime = (TextView) findViewById(R.id.textViewTT);
-            tripTime.setText(driveRecord.getDriveRecord());
+            tripTime.setText(trip.getStartTime());
 
             TextView duration = (TextView) findViewById(R.id.textViewDur);
-            duration.setText(driveRecord.getTimeDuration());
+            duration.setText(trip.getTimeDuration());
 
             TextView distance = (TextView) findViewById(R.id.textViewDis);
-            distance.setText(String.valueOf(driveRecord.getDistance()));
+            distance.setText(String.valueOf(trip.getDistance()));
 
             TextView avgSpeed = (TextView) findViewById(R.id.textViewAS);
-            avgSpeed.setText(String.valueOf(driveRecord.getAvgSpeed()));
+            avgSpeed.setText(String.valueOf(trip.getAvgSpeed()));
 
             TextView avgRPM = (TextView) findViewById(R.id.textViewAR);
-            avgRPM.setText(String.valueOf(driveRecord.getAvgRPM()));
+            avgRPM.setText(String.valueOf(trip.getAvgRPM()));
 
             TextView fuel = (TextView) findViewById(R.id.textViewF);
-            fuel.setText(String.valueOf(driveRecord.getFuelConsume()));
+            fuel.setText(String.valueOf(trip.getFuelConsume()));
 
             TextView emission = (TextView) findViewById(R.id.textViewE);
-            emission.setText(String.valueOf(driveRecord.getEmissionCO2()));
+            emission.setText(String.valueOf(trip.getEmissionCO2()));
         }
 
         TextView tripLog = (TextView) findViewById(R.id.textViewTL);
