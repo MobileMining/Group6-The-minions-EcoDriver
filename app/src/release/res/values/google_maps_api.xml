@@ -1,0 +1,18 @@
+<resources>
+    <!--
+    TODO: Before you drive your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=21:6E:D2:C0:10:21:8E:44:34:D3:32:4F:AE:E4:46:DD:EA:2A:E0:0F%3Bcom.aronssondev.andreas.drivetracker
+
+    You can also add your credentials to an existing key, using this line:
+    21:6E:D2:C0:10:21:8E:44:34:D3:32:4F:AE:E4:46:DD:EA:2A:E0:0F;com.aronssondev.andreas.drivetracker
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
+        YOUR_KEY_HERE
+    </string>
+</resources>
