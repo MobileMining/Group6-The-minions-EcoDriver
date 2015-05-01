@@ -18,10 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -101,6 +98,7 @@ public class AnalyzeDrives extends ActionBarActivity {
             }
         });
 
+        /*
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -118,6 +116,7 @@ public class AnalyzeDrives extends ActionBarActivity {
                 tripAdapter.notifyDataSetChanged();  //adapter has been changed.
             }
         });
+        */
 
         Button btnDelete = (Button) findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(new View.OnClickListener(){

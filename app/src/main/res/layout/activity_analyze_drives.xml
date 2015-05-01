@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/drivesListView"
-        android:layout_below="@+id/btnAdd"
+        android:layout_below="@+id/btnDelete"
         android:background="@android:color/background_dark"
         android:textColor="@android:color/background_light"/>
 
-    <Button
+    <!--Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add"
@@ -26,7 +26,7 @@
         android:textSize="15sp"
         android:textStyle="bold|normal"
         android:textColor="@android:color/background_light"
-        android:clickable="true" />
+        android:clickable="true" /-->
 
     <Button
         android:layout_width="wrap_content"

@@ -8,18 +8,46 @@
     tools:context="com.aronssondev.andreas.ecodriver.TrackDriving">
 
     <TextView
+        android:id="@+id/displaySpeed"
+        android:text="Speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Track Driving"
-        android:id="@+id/textView"
+        android:layout_marginTop="80dp"
+        android:textSize="@dimen/abc_text_size_large_material"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/displaySpeed"
-        android:text="Insert speed here!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:text="RPM"
+        android:id="@+id/textViewRPM"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:layout_marginTop="80dp"
+        android:layout_below="@+id/displaySpeed"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fuel"
+        android:id="@+id/textViewFuel"
+        android:layout_marginTop="80dp"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:layout_below="@+id/textViewRPM"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="StartStop"
+        android:id="@+id/buttonStartStop"
+        android:background="@android:color/holo_green_dark"
+        android:textColor="@android:color/background_light"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:textSize="22sp"
+        android:typeface="sans"/>
+
 </RelativeLayout>
