@@ -1,4 +1,6 @@
-package com.aronssondev.andreas.ecodriver;
+package com.gu.gminions.ecodriver;
+
+import com.gu.gminions.db.*;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,9 +27,6 @@ import com.swedspot.vil.policy.AutomotiveCertificate;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Random;
-
-import SQLiteDatabase.DataSource;
-import SQLiteDatabase.Trip;
 
 
 public class TrackDriving extends ActionBarActivity {

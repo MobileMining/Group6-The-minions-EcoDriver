@@ -1,4 +1,6 @@
-package com.aronssondev.andreas.ecodriver;
+package com.gu.gminions.ecodriver;
+
+import com.gu.gminions.db.*;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -6,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import SQLiteDatabase.Trip;
 
 /**
  * Created by jied on 21/04/15.

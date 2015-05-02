@@ -1,4 +1,4 @@
-package SQLiteDatabase;
+package com.gu.gminions.db;
 
 import android.os.Parcel;
 import android.os.Parcelable;

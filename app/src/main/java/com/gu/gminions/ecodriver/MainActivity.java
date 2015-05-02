@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.ecodriver;
+package com.gu.gminions.ecodriver;
 
 import android.content.Intent;
 import android.os.Bundle;

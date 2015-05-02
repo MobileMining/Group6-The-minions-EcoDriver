@@ -1,4 +1,4 @@
-package SQLiteDatabase;
+package com.gu.gminions.db;
 
 /**
  * Created by jied on 24/04/15.

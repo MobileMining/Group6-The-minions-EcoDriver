@@ -1,4 +1,4 @@
-package SQLiteDatabase;
+package com.gu.gminions.db;
 
 import android.content.ContentValues;
 import android.content.Context;

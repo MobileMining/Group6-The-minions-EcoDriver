@@ -1,4 +1,6 @@
-package com.aronssondev.andreas.ecodriver;
+package com.gu.gminions.ecodriver;
+
+import com.gu.gminions.db.*;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,10 +23,6 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import SQLiteDatabase.DataSource;
-import SQLiteDatabase.Trip;
-
 
 public class AnalyzeDrives extends ActionBarActivity {
 
