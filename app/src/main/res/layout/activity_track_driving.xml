@@ -6,37 +6,92 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@android:color/background_dark"
     tools:context="com.aronssondev.andreas.ecodriver.TrackDriving">
-
-    <TextView
-        android:id="@+id/displaySpeed"
-        android:text="Speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:textSize="@dimen/abc_text_size_large_material"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RPM"
-        android:id="@+id/textViewRPM"
-        android:textSize="@dimen/abc_text_size_large_material"
-        android:layout_marginTop="80dp"
-        android:layout_below="@+id/displaySpeed"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fuel"
-        android:id="@+id/textViewFuel"
-        android:layout_marginTop="80dp"
-        android:textSize="@dimen/abc_text_size_large_material"
-        android:layout_below="@+id/textViewRPM"
-        android:layout_alignParentStart="true" />
-
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true">
+        <TableRow>
+            <TextView
+                android:text="Speed"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="10dp"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:layout_alignParentStart="true" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="85dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/pb_speed"
+                android:layout_column="1"
+                android:indeterminate="false"
+                android:progress="50"
+                android:progressDrawable="@drawable/progressdrawable" />
+            <TextView
+                android:text="    0 km/h"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:layout_alignParentStart="true"
+                android:layout_column="2"
+                android:id="@+id/tv_speed" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="RPM"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="10dp"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:layout_alignParentStart="true" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="85dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/pb_rpm"
+                android:layout_column="1"
+                android:indeterminate="false"
+                android:progress="50"
+                android:progressDrawable="@drawable/progressdrawable" />
+            <TextView
+                android:text="    0 rpm"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:layout_alignParentStart="true"
+                android:layout_column="2"
+                android:id="@+id/tv_rpm" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Fuel"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="10dp"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:layout_alignParentStart="true" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="85dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/pb_fuel"
+                android:layout_column="1"
+                android:indeterminate="false"
+                android:progress="50"
+                android:progressDrawable="@drawable/progressdrawable" />
+            <TextView
+                android:text="    0 %"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="5dp"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:layout_alignParentStart="true"
+                android:layout_column="2"
+                android:id="@+id/tv_fuel" />
+        </TableRow>
+    </TableLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,5 +104,4 @@
         android:clickable="true"
         android:textSize="22sp"
         android:typeface="sans"/>
-
 </RelativeLayout>

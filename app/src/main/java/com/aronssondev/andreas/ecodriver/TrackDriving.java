@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.swedspot.automotiveapi.AutomotiveFactory;
@@ -41,10 +42,6 @@ public class TrackDriving extends ActionBarActivity {
         setContentView(R.layout.activity_track_driving);
 
         isTracking = false;
-
-        ds = (TextView)findViewById(R.id.displaySpeed);
-        rpm = (TextView) findViewById(R.id.textViewRPM);
-        fuel = (TextView) findViewById(R.id.textViewFuel);
 
         final DataSource dataSource = new DataSource(this);
         dataSource.open();
@@ -79,14 +76,28 @@ public class TrackDriving extends ActionBarActivity {
                 }
             }
         });
+
+        ((ProgressBar)findViewById(R.id.pb_speed)).setProgress(0);
+        ((ProgressBar)findViewById(R.id.pb_rpm)).setProgress(0);
+        ((ProgressBar)findViewById(R.id.pb_fuel)).setProgress(0);
     }
 
-    // Get a reference to the text field
-    TextView ds;
-    TextView rpm;
-    TextView fuel;
-
     public void startTracking(){
+        final TextView tvSpeed = (TextView)findViewById(R.id.tv_speed);
+        final TextView tvRpm = (TextView)findViewById(R.id.tv_rpm);
+        final TextView tvFuel = (TextView)findViewById(R.id.tv_fuel);
+
+        final ProgressBar pbSpeed = (ProgressBar)findViewById(R.id.pb_speed);
+        final ProgressBar pbRpm = (ProgressBar)findViewById(R.id.pb_rpm);
+        final ProgressBar pbFuel = (ProgressBar)findViewById(R.id.pb_fuel);
+
+        pbSpeed.setProgress(0);
+        pbRpm.setProgress(0);
+        pbFuel.setProgress(0);
+
+        final float MaxSpeed = 300.f;
+        final float MaxRpm = 10000.f;
+
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object... objects) {
@@ -95,24 +106,54 @@ public class TrackDriving extends ActionBarActivity {
                         new AutomotiveListener() { // Listener that observes the Signals
                             @Override
                             public void receive(final AutomotiveSignal automotiveSignal) {
-                                if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_WHEEL_BASED_SPEED)
-                                    ds.post(new Runnable() { // Post the result back to the View/UI thread
+                                if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_WHEEL_BASED_SPEED) {
+
+                                    final float speed = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+
+                                    tvSpeed.post(new Runnable() { // Post the result back to the View/UI thread
                                         public void run() {
-                                            ds.setText(String.format("%.1f km/h", ((SCSFloat) automotiveSignal.getData()).getFloatValue()));
+                                            tvSpeed.setText(String.format("%.1f km/h", speed));
                                         }
                                     });
-                                else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_ENGINE_SPEED)
-                                    rpm.post(new Runnable() {
+
+                                    pbSpeed.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            rpm.setText(String.format("%.0f rpm", ((SCSFloat) automotiveSignal.getData()).getFloatValue()));
+                                            pbSpeed.setProgress((int)(100.f*speed/MaxSpeed));
                                         }
                                     });
+                                }
+                                else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_ENGINE_SPEED) {
+                                    final float rpm = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+
+                                    tvRpm.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            tvRpm.setText(String.format("%.0f rpm", rpm));
+                                        }
+                                    });
+
+                                    pbRpm.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            pbRpm.setProgress((int)(100.f*rpm/MaxRpm));
+                                        }
+                                    });
+                                }
                                 else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_FUEL_LEVEL_1) {
-                                    fuel.post(new Runnable() {
+                                    final float fuel = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+
+                                    tvFuel.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            fuel.setText(String.format("%.0f", ((SCSFloat) automotiveSignal.getData()).getFloatValue()));
+                                            tvFuel.setText(String.format("%.1f %%", fuel));
+                                        }
+                                    });
+
+                                    pbFuel.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            pbFuel.setProgress((int)(fuel));
                                         }
                                     });
                                 }
@@ -130,11 +171,13 @@ public class TrackDriving extends ActionBarActivity {
                         new DriverDistractionListener() {       // Observe driver distraction level
                             @Override
                             public void levelChanged(final DriverDistractionLevel driverDistractionLevel) {
+                                /*
                                 ds.post(new Runnable() { // Post the result back to the View/UI thread
                                     public void run() {
                                         //ds.setTextSize(driverDistractionLevel.getLevel() * 10.0F + 12.0F);
                                     }
                                 });
+                                */
                             }
 
                             @Override
