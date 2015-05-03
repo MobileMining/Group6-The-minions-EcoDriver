@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitStart"
             android:id="@+id/imageViewRoute"
-            android:src="@mipmap/gothenborg_stockholm"
+            android:src="@drawable/temp_map_gothenborg_stockholm"
             android:layout_below="@+id/textViewRouteDisplay"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp" />
