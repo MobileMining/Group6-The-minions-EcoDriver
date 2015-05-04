@@ -1,96 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
     <TableRow>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingRight="5sp"
             android:text="@string/started"
-            />
-        <TextView android:id="@+id/drive_startedTextView"
-            android:layout_width="fill_parent"
+            android:layout_gravity="right" android:paddingRight="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:id="@+id/run_startedTextView"/>
     </TableRow>
     <TableRow>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingRight="5sp"
             android:text="@string/latitude"
-            />
-        <TextView android:id="@+id/drive_latitudeTextView"
-            android:layout_width="fill_parent"
+            android:layout_gravity="right" android:paddingRight="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:id="@+id/run_latitudeTextView"/>
     </TableRow>
     <TableRow>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingRight="5sp"
             android:text="@string/longitude"
-            />
-        <TextView android:id="@+id/drive_longitudeTextView"
-            android:layout_width="fill_parent"
+            android:layout_gravity="right" android:paddingRight="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:id="@+id/run_longitudeTextView"/>
     </TableRow>
     <TableRow>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingRight="5sp"
             android:text="@string/altitude"
-            />
-        <TextView android:id="@+id/drive_altitudeTextView"
-            android:layout_width="fill_parent"
+            android:layout_gravity="right" android:paddingRight="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:id="@+id/run_altitudeTextView"/>
     </TableRow>
     <TableRow>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingRight="5sp"
             android:text="@string/elapsed_time"
-            />
-        <TextView android:id="@+id/drive_durationTextView"
-            android:layout_width="fill_parent"
+            android:layout_gravity="right" android:paddingRight="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            />
+            android:id="@+id/run_durationTextView" android:textSize="25dp"/>
     </TableRow>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        >
-        <Button android:id="@+id/drive_startButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/start"
-            />
-        <Button android:id="@+id/drive_stopButton"
+            android:id="@+id/run_StartButton" android:layout_weight="1"/>
+        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/stop"
-            />
+            android:id="@+id/run_StopButton" android:layout_weight="1"/>
 
-        <Button android:id="@+id/drive_mapButton"
+        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/map"
-            />
+            android:id="@+id/run_mapButton"
+            android:layout_weight="1"/>
     </LinearLayout>
 </TableLayout>

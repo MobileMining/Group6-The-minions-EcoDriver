@@ -1,29 +1,32 @@
 package com.aronssondev.andreas.drivetracker;
+
+
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 public abstract class DataLoader<D> extends AsyncTaskLoader<D> {
-    
-    private D mData;
+
+    private D mD;
 
     public DataLoader(Context context) {
         super(context);
     }
-    
+
     @Override
     protected void onStartLoading() {
-        if (mData != null) {
-            deliverResult(mData);
+        if (mD != null) {
+            deliverResult(mD);
         } else {
             forceLoad();
         }
     }
-    
+
     @Override
     public void deliverResult(D data) {
-        mData = data;
-        if (isStarted())
-            super.deliverResult(data);
-    }
+        mD = data;
 
+        if (isStarted()) {
+            super.deliverResult(data);
+        }
+    }
 }

@@ -1,12 +1,15 @@
 package com.aronssondev.andreas.drivetracker;
+
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Drive {
     private long mId;
     private Date mStartDate;
-    
+
     public Drive() {
-        mId = -1;
         mStartDate = new Date();
     }
 
@@ -25,16 +28,22 @@ public class Drive {
     public void setStartDate(Date startDate) {
         mStartDate = startDate;
     }
-    
+
     public int getDurationSeconds(long endMillis) {
-        return (int)((endMillis - mStartDate.getTime()) / 1000);
+        return (int) ((endMillis - mStartDate.getTime()) / 1000);
     }
 
     public static String formatDuration(int durationSeconds) {
         int seconds = durationSeconds % 60;
-        int minutes = ((durationSeconds - seconds) / 60) % 60;
-        int hours = (durationSeconds - (minutes * 60) - seconds) / 3600;
+        int minutes = (durationSeconds / 60) % 60;
+        int hours = durationSeconds / 3600;
+
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
+    public String getFormattedDate() {
+        String format = "EEEE, MMM d, yyyy HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        return sdf.format(mStartDate);
+    }
 }

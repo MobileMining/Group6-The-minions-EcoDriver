@@ -1,19 +1,20 @@
 package com.aronssondev.andreas.drivetracker;
 
-import java.util.Date;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.aronssondev.andreas.drivetracker.DriveDatabaseHelper.LocationCursor;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,117 +25,181 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-/**
- * Created by andreas on 19/04/15.
- */
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-public class DriveMapFragment extends SupportMapFragment implements LoaderCallbacks<Cursor>{
+public class DriveMapFragment extends SupportMapFragment {
 
-private static final String ARG_RUN_ID = "RUN_ID";
-private static final int LOAD_LOCATIONS = 0;
+    private static final int LOAD_LOCATIONS = 1;
 
-private GoogleMap mGoogleMap;
-private LocationCursor mLocationCursor;
+    private GoogleMap mGoogleMap;
+    private DriveDatabaseHelper.LocationCursor mLocationCursor;
+    private DriveManager mDriveManager;
+    private Drive mDrive;
 
-        public static DriveMapFragment newInstance(long driveId) {
-            Bundle args = new Bundle();
-            args.putLong(ARG_RUN_ID, driveId);
-            DriveMapFragment rf = new DriveMapFragment();
-            rf.setArguments(args);
-            return rf;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        long driveId = getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_RUN_ID, 0);
+
+        if (driveId != 0) {
+            getLoaderManager().initLoader(LOAD_LOCATIONS, null, mLoaderCallbacks);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        mGoogleMap = getMap();
+        mGoogleMap.setMyLocationEnabled(true);
+
+        return v;
+    }
+
+    private static class LocationListCursorLoader extends SQLiteCursorLoader {
+
+        private long mDriveId;
+
+        public LocationListCursorLoader(Context context, long driveId) {
+            super(context);
+            mDriveId = driveId;
         }
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            // check for a Drive ID as an argument, and find the drive
-            Bundle args = getArguments();
-            if (args != null) {
-                long driveId = args.getLong(ARG_RUN_ID, -1);
-                if (driveId != -1) {
-                    LoaderManager lm = getLoaderManager();
-                    lm.initLoader(LOAD_LOCATIONS, args, this);
-                }
-            }
+        protected Cursor loadCursor() {
+            return DriveManager.getInstance(getContext()).queryLocationsForDrive(mDriveId);
         }
+    }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-            View v = super.onCreateView(inflater, parent, savedInstanceState);
-
-            // stash a reference to the GoogleMap
-            mGoogleMap = getMap();
-            // show the user's location
-            mGoogleMap.setMyLocationEnabled(true);
-
-            return v;
-        }
-
-        private void updateUI() {
-            if (mGoogleMap == null || mLocationCursor == null)
-                return;
-
-            // set up an overlay on the map for this drive's locations
-            // create a polyline with all of the points
-            PolylineOptions line = new PolylineOptions();
-            // also create a LatLngBounds so we can zoom to fit
-            LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
-            // iterate over the locations
-            mLocationCursor.moveToFirst();
-            while (!mLocationCursor.isAfterLast()) {
-                Location loc = mLocationCursor.getLocation();
-                LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-
-                // if this is the first location, add a marker for it
-                if (mLocationCursor.isFirst()) {
-                    String startDate = new Date(loc.getTime()).toString();
-                    MarkerOptions startMarkerOptions = new MarkerOptions()
-                            .position(latLng)
-                            .title(getResources().getString(R.string.drive_start))
-                            .snippet(getResources().getString(R.string.drive_started_at_format, startDate));
-                    mGoogleMap.addMarker(startMarkerOptions);
-                } else if (mLocationCursor.isLast()) {
-                    // if this is the last location, and not also the first, add a marker
-                    String endDate = new Date(loc.getTime()).toString();
-                    MarkerOptions finishMarkerOptions = new MarkerOptions()
-                            .position(latLng)
-                            .title(getResources().getString(R.string.drive_finish))
-                            .snippet(getResources().getString(R.string.drive_finished_at_format, endDate));
-                    mGoogleMap.addMarker(finishMarkerOptions);
-                }
-
-                line.add(latLng);
-                latLngBuilder.include(latLng);
-                mLocationCursor.moveToNext();
-            }
-            // add the polyline to the map
-            mGoogleMap.addPolyline(line);
-            // make the map zoom to show the track, with some padding
-            // use the size of the current display in pixels as a bounding box
-            Display display = getActivity().getWindowManager().getDefaultDisplay();
-            // construct a movement instruction for the map camera
-            CameraUpdate movement = CameraUpdateFactory.newLatLngBounds(latLngBuilder.build(),
-                    display.getWidth(), display.getHeight(), 15);
-            mGoogleMap.moveCamera(movement);
-        }
-
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            return new LocationListCursorLoader(getActivity(), args.getLong(ARG_RUN_ID, -1));
+            return new LocationListCursorLoader(getActivity(),
+                    getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_RUN_ID, 0));
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-            mLocationCursor = (LocationCursor)cursor;
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            mLocationCursor = (DriveDatabaseHelper.LocationCursor) data;
             updateUI();
         }
 
         @Override
         public void onLoaderReset(Loader<Cursor> loader) {
-            // stop using the data
             mLocationCursor.close();
             mLocationCursor = null;
         }
+    };
 
+    private void updateUI() {
+        if (mGoogleMap == null || mLocationCursor == null) {
+            return;
+        }
+
+        PolylineOptions line = new PolylineOptions();
+
+        LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
+
+        mLocationCursor.moveToFirst();
+
+        while (!mLocationCursor.isAfterLast()) {
+            Location location = mLocationCursor.getLocation();
+            LatLng latLng = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+
+            Resources resources = getResources();
+
+            if (mLocationCursor.isFirst()) {
+                String startDate = getFormattedDate(new Date(location.getTime()));
+
+                MarkerOptions startMarkerOptions = new MarkerOptions()
+                        .position(latLng)
+                        .title(resources.getString(R.string.drive_start))
+                        .snippet(resources.getString(
+                                R.string.drive_started_at_format, startDate));
+
+                mGoogleMap.addMarker(startMarkerOptions);
+            } else if (mLocationCursor.isLast()) {
+                String finishDate = getFormattedDate(new Date(location.getTime()));
+
+                MarkerOptions finishMarkerOptions = new MarkerOptions()
+                        .position(latLng)
+                        .title(resources.getString(R.string.drive_finish))
+                        .snippet(resources.getString(
+                                R.string.drive_finished_at_format, finishDate));
+
+                mGoogleMap.addMarker(finishMarkerOptions);
+            }
+
+            line.add(latLng);
+            latLngBuilder.include(latLng);
+
+            mLocationCursor.moveToNext();
+        }
+
+        mGoogleMap.addPolyline(line);
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        LatLngBounds latLngBounds = latLngBuilder.build();
+
+        CameraUpdate movement = CameraUpdateFactory.newLatLngBounds(latLngBounds,
+                display.getWidth(), display.getHeight(), 15);
+
+        mGoogleMap.moveCamera(movement);
+    }
+
+    private String getFormattedDate(Date date) {
+        String format = "EEEE, MMM d, yyyy HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        return sdf.format(date);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().registerReceiver(mLocationReceiver,
+                new IntentFilter(DriveManager.ACTION_LOCATION));
+    }
+
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(mLocationReceiver);
+        super.onStop();
+    }
+
+    private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
+        @Override
+        protected void onLocationReceived(Context context, Location location) {
+
+            mDriveManager = DriveManager.getInstance(getActivity());
+
+            long driveId = getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_RUN_ID, 0);
+
+            mDrive = mDriveManager.getDrive(driveId);
+
+            if (!mDriveManager.isTrackingDrive(mDrive)) {
+                return;
+            }
+
+            if (isVisible()) {
+                mGoogleMap.clear();
+                getLoaderManager().restartLoader(LOAD_LOCATIONS, null, mLoaderCallbacks);
+            }
+        }
+
+        @Override
+        protected void onProviderEnabledChanged(boolean enabled) {
+            int toastText = enabled ? R.string.gps_enabled : R.string.gps_disabled;
+            Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG).show();
+        }
+    };
 }

@@ -1,13 +1,15 @@
 package com.aronssondev.andreas.drivetracker;
+
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,185 +19,221 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DriveFragment extends Fragment {
-    private static final String TAG = "DriveFragment";
-    private static final String ARG_RUN_ID = "RUN_ID";
-    private static final int LOAD_RUN = 0;
-    private static final int LOAD_LOCATION = 1;
-    
-    private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
 
-        @Override
-        protected void onLocationReceived(Context context, Location loc) {
-            if (!mDriveManager.isTrackingDrive(mDrive))
-                return;
-            mLastLocation = loc;
-            if (isVisible()) 
-                updateUI();
-        }
-        
-        @Override
-        protected void onProviderEnabledChanged(boolean enabled) {
-            int toastText = enabled ? R.string.gps_enabled : R.string.gps_disabled;
-            Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG).show();
-        }
-        
-    };
-    
-    private DriveManager mDriveManager;
-    
-    private Drive mDrive;
-    private Location mLastLocation;
+    public static final String EXTRA_RUN_ID = "com.aronssondev.andreas.drivetracker.drive_id";
+
+    private static final int LOAD_RUN = 1;
+    private static final int LOAD_LOCATION = 2;
 
     private Button mStartButton, mStopButton, mMapButton;
-    private TextView mStartedTextView, mLatitudeTextView, 
-        mLongitudeTextView, mAltitudeTextView, mDurationTextView;
-    
-    public static DriveFragment newInstance(long driveId) {
-        Bundle args = new Bundle();
-        args.putLong(ARG_RUN_ID, driveId);
-        DriveFragment rf = new DriveFragment();
-        rf.setArguments(args);
-        return rf;
-    }
+    private TextView mStartedTextView, mLatitudeTextView, mLongitudeTextView,
+            mAltitudeTextView, mDurationTextView;
+
+    private DriveManager mDriveManager;
+
+    private Drive mDrive;
+
+    private Location mLastLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mDriveManager = DriveManager.get(getActivity());
 
-        // check for a Drive ID as an argument, and find the drive
-        Bundle args = getArguments();
-        if (args != null) {
-            long driveId = args.getLong(ARG_RUN_ID, -1);
-            if (driveId != -1) {
-                LoaderManager lm = getLoaderManager();
-                lm.initLoader(LOAD_RUN, args, new DriveLoaderCallbacks());
-                lm.initLoader(LOAD_LOCATION, args, new LocationLoaderCallbacks());
-            }
+        mDriveManager = DriveManager.getInstance(getActivity());
+
+        long driveId = getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0);
+
+        if (driveId != 0) {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(LOAD_RUN, null, mDriveLoaderCallbacks);
+            loaderManager.initLoader(LOAD_LOCATION, null, mLocationLoaderCallbacks);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_drive, container, false);
-        
-        mStartedTextView = (TextView)view.findViewById(R.id.drive_startedTextView);
-        mLatitudeTextView = (TextView)view.findViewById(R.id.drive_latitudeTextView);
-        mLongitudeTextView = (TextView)view.findViewById(R.id.drive_longitudeTextView);
-        mAltitudeTextView = (TextView)view.findViewById(R.id.drive_altitudeTextView);
-        mDurationTextView = (TextView)view.findViewById(R.id.drive_durationTextView);
-        
-        mStartButton = (Button)view.findViewById(R.id.drive_startButton);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_drive, container, false);
+
+        mStartedTextView = (TextView) v.findViewById(R.id.drive_startedTextView);
+        mLatitudeTextView = (TextView) v.findViewById(R.id.drive_latitudeTextView);
+        mLongitudeTextView = (TextView) v.findViewById(R.id.drive_longitudeTextView);
+        mAltitudeTextView = (TextView) v.findViewById(R.id.drive_altitudeTextView);
+        mDurationTextView = (TextView) v.findViewById(R.id.drive_durationTextView);
+
+        mStartButton = (Button) v.findViewById(R.id.drive_StartButton);
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDrive == null) {
-                    mDrive = mDriveManager.startNewDrive();
-                } else {
-                    mDriveManager.startTrackingDrive(mDrive);
-                }
+                mDrive = mDriveManager.startTrackingDrive(mDrive);
+
                 updateUI();
             }
         });
-        
-        mStopButton = (Button)view.findViewById(R.id.drive_stopButton);
+
+        mStopButton = (Button) v.findViewById(R.id.drive_StopButton);
         mStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDriveManager.stopDrive();
+                mDriveManager.stopTrackingDrive();
+
                 updateUI();
             }
         });
 
-        mMapButton = (Button)view.findViewById(R.id.drive_mapButton);
+        mMapButton = (Button) v.findViewById(R.id.drive_mapButton);
         mMapButton.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-                                              Intent i = new Intent(getActivity(), DriveMapActivity.class);
-                                              i.putExtra(DriveMapActivity.EXTRA_RUN_ID, mDrive.getId());
-                                              startActivity(i);
-                                          }
-                                      });
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), DriveMapActivity.class);
+                i.putExtra(EXTRA_RUN_ID, mDrive.getId());
+                startActivity(i);
+            }
+        });
 
-                updateUI();
-        
-        return view;
+        updateUI();
+
+        return v;
     }
-    
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().registerReceiver(mLocationReceiver, 
-                new IntentFilter(DriveManager.ACTION_LOCATION));
-    }
-    
-    @Override
-    public void onStop() {
-        getActivity().unregisterReceiver(mLocationReceiver);
-        super.onStop();
-    }
-    
+
     private void updateUI() {
         boolean started = mDriveManager.isTrackingDrive();
         boolean trackingThisDrive = mDriveManager.isTrackingDrive(mDrive);
-        
-        if (mDrive != null)
-            mStartedTextView.setText(mDrive.getStartDate().toString());
-        
+        boolean hasLastLocation = (mDrive != null) && (mLastLocation != null);
+
+        mStartButton.setEnabled(!started);
+        mStopButton.setEnabled(trackingThisDrive);
+        mMapButton.setEnabled(hasLastLocation);
+
+        if (mDrive != null) {
+            mStartedTextView.setText(mDrive.getFormattedDate());
+        }
+
         int durationSeconds = 0;
+
         if (mDrive != null && mLastLocation != null) {
             durationSeconds = mDrive.getDurationSeconds(mLastLocation.getTime());
             mLatitudeTextView.setText(Double.toString(mLastLocation.getLatitude()));
             mLongitudeTextView.setText(Double.toString(mLastLocation.getLongitude()));
             mAltitudeTextView.setText(Double.toString(mLastLocation.getAltitude()));
-
-            mMapButton.setEnabled(true);
-        } else {
-            mMapButton.setEnabled(false);
         }
+
         mDurationTextView.setText(Drive.formatDuration(durationSeconds));
-        
-        mStartButton.setEnabled(!started);
-        mStopButton.setEnabled(started && trackingThisDrive);
-    }
-    
-    private class DriveLoaderCallbacks implements LoaderCallbacks<Drive> {
-        
-        @Override
-        public Loader<Drive> onCreateLoader(int id, Bundle args) {
-            return new DriveLoader(getActivity(), args.getLong(ARG_RUN_ID));
-        }
-
-        @Override
-        public void onLoadFinished(Loader<Drive> loader, Drive drive) {
-            mDrive = drive;
-            updateUI();
-        }
-
-        @Override
-        public void onLoaderReset(Loader<Drive> loader) {
-            // do nothing
-        }
     }
 
-    private class LocationLoaderCallbacks implements LoaderCallbacks<Location> {
-        
+    private BroadcastReceiver mLocationReceiver = new LocationReceiver() {
         @Override
-        public Loader<Location> onCreateLoader(int id, Bundle args) {
-            return new LastLocationLoader(getActivity(), args.getLong(ARG_RUN_ID));
-        }
+        protected void onLocationReceived(Context context, Location location) {
+            // super.onLocationReceived(context, location);
 
-        @Override
-        public void onLoadFinished(Loader<Location> loader, Location location) {
+            if (!mDriveManager.isTrackingDrive(mDrive)) {
+                return;
+            }
+
             mLastLocation = location;
-            updateUI();
+            if (isVisible()) {
+                updateUI();
+            }
         }
 
         @Override
-        public void onLoaderReset(Loader<Location> loader) {
-            // do nothing
+        protected void onProviderEnabledChanged(boolean enabled) {
+            // super.onProviderEnabledChanged(enabled);
+
+            int toastText = enabled ? R.string.gps_enabled : R.string.gps_disabled;
+            Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG).show();
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().registerReceiver(mLocationReceiver,
+                new IntentFilter(DriveManager.ACTION_LOCATION));
+
+        long driveId = getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0);
+
+        if (driveId != 0) {
+            mDrive = mDriveManager.getDrive(driveId);
+            mLastLocation = mDriveManager.getLastLocationForDrive(mDrive.getId());
         }
     }
+
+    @Override
+    public void onStop() {
+        getActivity().unregisterReceiver(mLocationReceiver);
+        super.onStop();
+    }
+
+    private static class DriveLoader extends DataLoader<Drive> {
+
+        private long mDriveId;
+
+        public DriveLoader(Context context, long driveId) {
+            super(context);
+            mDriveId = driveId;
+        }
+
+        @Override
+        public Drive loadInBackground() {
+            return DriveManager.getInstance(getContext())
+                    .getDrive(mDriveId);
+        }
+    }
+
+    private LoaderManager.LoaderCallbacks<Drive> mDriveLoaderCallbacks =
+            new LoaderManager.LoaderCallbacks<Drive>() {
+                @Override
+                public Loader<Drive> onCreateLoader(int id, Bundle args) {
+                    return new DriveLoader(getActivity(),
+                            getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0));
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Drive> loader, Drive data) {
+                    mDrive = data;
+                    updateUI();
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Drive> loader) {
+
+                }
+            };
+
+    private static class LastLocationLoader extends DataLoader<Location> {
+
+        private long mDriveId;
+
+        public LastLocationLoader(Context context, long driveId) {
+            super(context);
+            mDriveId = driveId;
+        }
+
+        @Override
+        public Location loadInBackground() {
+            return DriveManager.getInstance(getContext())
+                    .getLastLocationForDrive(mDriveId);
+        }
+    }
+
+    private LoaderManager.LoaderCallbacks<Location> mLocationLoaderCallbacks =
+            new LoaderManager.LoaderCallbacks<Location>() {
+                @Override
+                public Loader<Location> onCreateLoader(int id, Bundle args) {
+                    return new LastLocationLoader(getActivity(),
+                            getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0));
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Location> loader, Location data) {
+                    mLastLocation = data;
+                    updateUI();
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Location> loader) {
+
+                }
+            };
 }

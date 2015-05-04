@@ -1,4 +1,6 @@
 package com.aronssondev.andreas.drivetracker;
+
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,24 +14,23 @@ public class LocationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Location loc = (Location)intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
-        if (loc != null) {
-            onLocationReceived(context, loc);
-            return;
-        }
-        // if we get here, something else has happened
-        if (intent.hasExtra(LocationManager.KEY_PROVIDER_ENABLED)) {
+        Location location = intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
+
+        if (location != null) {
+            onLocationReceived(context, location);
+        } else if (intent.hasExtra(LocationManager.KEY_PROVIDER_ENABLED)) {
             boolean enabled = intent.getBooleanExtra(LocationManager.KEY_PROVIDER_ENABLED, false);
             onProviderEnabledChanged(enabled);
         }
     }
-    
-    protected void onLocationReceived(Context context, Location loc) {
-        Log.d(TAG, this + " Got location from " + loc.getProvider() + ": " + loc.getLatitude() + ", " + loc.getLongitude());
+
+    protected void onLocationReceived(Context context, Location location) {
+        Log.d(TAG, this + " Got location from " + location.getProvider() + ": " +
+                location.getLatitude() + ", " + location.getLongitude());
+        DriveManager.getInstance(context).insertLocation(location);
     }
-    
+
     protected void onProviderEnabledChanged(boolean enabled) {
         Log.d(TAG, "Provider " + (enabled ? "enabled" : "disabled"));
     }
-
 }
