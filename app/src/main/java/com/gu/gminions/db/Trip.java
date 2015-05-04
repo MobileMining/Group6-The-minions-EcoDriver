@@ -11,16 +11,9 @@ public class Trip implements Comparable<Trip>, Parcelable {
     private long id;
     private String startTime;
     private String endTime;
-    private String timeDuration;
     private long startMileage;
     private long endMileage;
-    private long distance;
-    private String startPlace;
-    private String destination;
-    private long avgSpeed;
-    private long avgRPM;
     private long fuelConsume;
-    private long emissionCO2;
     private long rating;
 
     public int compareTo(Trip other) {
@@ -51,13 +44,6 @@ public class Trip implements Comparable<Trip>, Parcelable {
         this.endTime = endTime;
     }
 
-    public String getTimeDuration(){
-        return timeDuration;
-    }
-
-    public void setTimeDuration(String timeDuration){
-        this.timeDuration = timeDuration;
-    }
 
     public long getStartMileage(){
         return startMileage;
@@ -75,46 +61,6 @@ public class Trip implements Comparable<Trip>, Parcelable {
         this.endMileage = endMileage;
     }
 
-    public long getDistance(){
-        return distance;
-    }
-
-    public void setDistance(long distance){
-        this.distance = distance;
-    }
-
-    public String getStartPlace(){
-        return startPlace;
-    }
-
-    public void setStartPlace(String startPlace){
-        this.startPlace = startPlace;
-    }
-
-    public String getDestination(){
-        return destination;
-    }
-
-    public void setDestination(String destination){
-        this.destination = destination;
-    }
-
-    public long getAvgSpeed(){
-        return avgSpeed;
-    }
-
-    public void setAvgSpeed(long avgSpeed){
-        this.avgSpeed = avgSpeed;
-    }
-
-    public long getAvgRPM(){
-        return avgRPM;
-    }
-
-    public void setAvgRPM(long avgRPM){
-        this.avgRPM = avgRPM;
-    }
-
     public long getFuelConsume(){
         return fuelConsume;
     }
@@ -123,24 +69,12 @@ public class Trip implements Comparable<Trip>, Parcelable {
         this.fuelConsume = fuelConsume;
     }
 
-    public long getEmissionCO2(){
-        return emissionCO2;
-    }
-
-    public void setEmissionCO2(long emissionCO2){
-        this.emissionCO2 = emissionCO2;
-    }
-
     public long getRating(){
         return rating;
     }
 
     public void setRating(long rating){
         this.rating = rating;
-    }
-
-    public String toString(){
-        return startTime + " " + startPlace + " - " + destination;
     }
 
     @Override
@@ -153,16 +87,9 @@ public class Trip implements Comparable<Trip>, Parcelable {
         dest.writeLong(id);
         dest.writeString(startTime);
         dest.writeString(endTime);
-        dest.writeString(timeDuration);
         dest.writeLong(startMileage);
         dest.writeLong(endMileage);
-        dest.writeLong(distance);
-        dest.writeString(startPlace);
-        dest.writeString(destination);
-        dest.writeLong(avgSpeed);
-        dest.writeLong(avgRPM);
         dest.writeLong(fuelConsume);
-        dest.writeLong(emissionCO2);
         dest.writeLong(rating);
     }
 
@@ -170,20 +97,13 @@ public class Trip implements Comparable<Trip>, Parcelable {
         id = source.readLong();
         startTime = source.readString();
         endTime = source.readString();
-        timeDuration = source.readString();
         startMileage = source.readLong();
         endMileage = source.readLong();
-        distance = source.readLong();
-        startPlace = source.readString();
-        destination = source.readString();
-        avgSpeed = source.readLong();
-        avgRPM = source.readLong();
         fuelConsume = source.readLong();
-        emissionCO2 = source.readLong();
         rating = source.readLong();
     }
 
-    Trip(){}
+    public Trip(){}
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
 

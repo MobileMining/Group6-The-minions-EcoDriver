@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.Random;
+
 
 /**
  * Created by jied on 21/04/15.
@@ -23,29 +25,38 @@ public class DriveDetails extends ActionBarActivity {
         if(extras != null){
             Trip trip = extras.getParcelable("selectedTrip");
 
+            // TODO: proper fix
+            String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
+            Random rand = new Random();
+            String startPlace = places[rand.nextInt(7)];
+            String destination = places[rand.nextInt(7)];
+
             TextView tripTitle = (TextView) findViewById(R.id.textViewTripTitle);
-            tripTitle.setText("Trip of " + trip.getStartPlace() + " - " + trip.getDestination());
+            tripTitle.setText("Trip of " + startPlace + " - " + destination);
+            // TODO: proper fix
 
             TextView tripTime = (TextView) findViewById(R.id.textViewTT);
             tripTime.setText(trip.getStartTime());
 
             TextView duration = (TextView) findViewById(R.id.textViewDur);
-            duration.setText(trip.getTimeDuration());
+            float tripDuration = 100; //trip.getEndTime() - trip.getStartTime(); //TODO: proper fix
+            duration.setText(String.valueOf(tripDuration));
 
             TextView distance = (TextView) findViewById(R.id.textViewDis);
-            distance.setText(String.valueOf(trip.getDistance()));
+            float tripDist  = trip.getEndMileage() - trip.getStartMileage();
+            distance.setText(String.valueOf(tripDist));
 
             TextView avgSpeed = (TextView) findViewById(R.id.textViewAS);
-            avgSpeed.setText(String.valueOf(trip.getAvgSpeed()));
+            avgSpeed.setText(String.valueOf(tripDist/tripDuration));
 
             TextView avgRPM = (TextView) findViewById(R.id.textViewAR);
-            avgRPM.setText(String.valueOf(trip.getAvgRPM()));
+            avgRPM.setText(String.valueOf(0)); // trip.getAvgRPM())); // TODO: proper fix
 
             TextView fuel = (TextView) findViewById(R.id.textViewF);
             fuel.setText(String.valueOf(trip.getFuelConsume()));
 
             TextView emission = (TextView) findViewById(R.id.textViewE);
-            emission.setText(String.valueOf(trip.getEmissionCO2()));
+            emission.setText(String.valueOf(0)); // trip.getEmissionCO2())); // TODO: proper fix
         }
 
         TextView tripLog = (TextView) findViewById(R.id.textViewTL);

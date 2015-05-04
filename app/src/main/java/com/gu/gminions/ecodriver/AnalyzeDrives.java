@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -62,8 +63,15 @@ public class AnalyzeDrives extends ActionBarActivity {
             TextView startTime = (TextView) convertView.findViewById(R.id.timeRecord);
             startTime.setText(trip.getStartTime());
 
-            TextView places = (TextView) convertView.findViewById(R.id.placeRecord);
-            places.setText(trip.getStartPlace() + " - " + trip.getDestination());
+            // TODO: remove debug
+            String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
+            Random rand = new Random();
+            String startPlace = places[rand.nextInt(7)];
+            String destination = places[rand.nextInt(7)];
+
+            TextView tvplaces = (TextView) convertView.findViewById(R.id.placeRecord);
+            tvplaces.setText(startPlace + " - " + destination);
+            // TODO: remove debug
 
             return convertView;
         }
@@ -74,7 +82,7 @@ public class AnalyzeDrives extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze_drives);
 
-        final DataSource dataSource = new DataSource(this);
+        final DriveDataSource dataSource = new DriveDataSource(this);
         dataSource.open();
 
         final TripAdapter tripAdapter = new TripAdapter(
@@ -120,7 +128,7 @@ public class AnalyzeDrives extends ActionBarActivity {
         btnDelete.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 for(Trip trip : mSelectedTrips) {
-                    dataSource.deleteTrip(trip);
+                    dataSource.deleteTrip(trip.getId());
                     tripAdapter.remove(trip);
                 }
                 mSelectedTrips.clear();

@@ -42,7 +42,7 @@ public class TrackDriving extends ActionBarActivity {
 
         isTracking = false;
 
-        final DataSource dataSource = new DataSource(this);
+        final DriveDataSource dataSource = new DriveDataSource(this);
         dataSource.open();
 
         final Button btnStartStop = (Button) findViewById(R.id.buttonStartStop);
@@ -62,12 +62,9 @@ public class TrackDriving extends ActionBarActivity {
                     DateFormat df = DateFormat.getDateTimeInstance();
                     String startTime = df.format(new Date());
 
-                    String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
-                    Random rand = new Random();
-                    String startPlace = places[rand.nextInt(7)];
-                    String destination = places[rand.nextInt(7)];
-                    Trip trip = dataSource.createTrip(startTime, null, null, 0, 0, 0,
-                            startPlace, destination, 0, 0, 0, 0, 0);
+                    Trip trip = new Trip();
+                    trip.setStartTime(startTime);
+                    dataSource.createTrip(trip);
 
                     // get back to main activity
                     Intent intent = new Intent(v.getContext(), MainActivity.class);
