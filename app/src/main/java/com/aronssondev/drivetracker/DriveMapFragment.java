@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 
 import android.content.BroadcastReceiver;
@@ -47,7 +47,7 @@ public class DriveMapFragment extends SupportMapFragment {
     public void onResume() {
         super.onResume();
 
-        long driveId = getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_RUN_ID, 0);
+        long driveId = getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_DRIVE_ID, 0);
 
         if (driveId != 0) {
             getLoaderManager().initLoader(LOAD_LOCATIONS, null, mLoaderCallbacks);
@@ -83,7 +83,7 @@ public class DriveMapFragment extends SupportMapFragment {
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             return new LocationListCursorLoader(getActivity(),
-                    getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_RUN_ID, 0));
+                    getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_DRIVE_ID, 0));
         }
 
         @Override
@@ -182,7 +182,7 @@ public class DriveMapFragment extends SupportMapFragment {
 
             mDriveManager = DriveManager.getInstance(getActivity());
 
-            long driveId = getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_RUN_ID, 0);
+            long driveId = getActivity().getIntent().getLongExtra(DriveFragment.EXTRA_DRIVE_ID, 0);
 
             mDrive = mDriveManager.getDrive(driveId);
 

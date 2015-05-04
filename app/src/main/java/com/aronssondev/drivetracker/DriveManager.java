@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 
 import android.app.PendingIntent;
@@ -14,10 +14,10 @@ public class DriveManager {
     private static final String TAG = "DriveManager";
 
     public static final String PREFS_FILE = "drives";
-    public static final String PREF_CURRENT_RUN_ID = "DriveManager.currentDriveId";
+    public static final String PREF_CURRENT_DRIVE_ID = "DriveManager.currentDriveId";
 
     public static final String ACTION_LOCATION =
-            "com.aronssondev.andreas.drivetracker.ACTION_LOCATION";
+            "com.aronssondev.drivetracker.ACTION_LOCATION";
 
     private static final String TEST_PROVIDER = "TEST_PROVIDER";
 
@@ -107,7 +107,7 @@ public class DriveManager {
             drive = insertDrive();
         }
         mCurrentDriveId = drive.getId();
-        mSharedPreferences.edit().putLong(PREF_CURRENT_RUN_ID, mCurrentDriveId).commit();
+        mSharedPreferences.edit().putLong(PREF_CURRENT_DRIVE_ID, mCurrentDriveId).commit();
         startLocationUpdates();
 
         return drive;
@@ -115,7 +115,7 @@ public class DriveManager {
 
     public void stopTrackingDrive() {
         stopLocationUpdates();
-        mSharedPreferences.edit().remove(PREF_CURRENT_RUN_ID).commit();
+        mSharedPreferences.edit().remove(PREF_CURRENT_DRIVE_ID).commit();
         mCurrentDriveId = 0;
     }
 

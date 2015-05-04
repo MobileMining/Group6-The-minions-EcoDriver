@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 
 import android.content.BroadcastReceiver;
@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 public class DriveFragment extends Fragment {
 
-    public static final String EXTRA_RUN_ID = "com.aronssondev.andreas.drivetracker.drive_id";
+    public static final String EXTRA_DRIVE_ID = "com.aronssondev.drivetracker.drive_id";
 
-    private static final int LOAD_RUN = 1;
+    private static final int LOAD_DRIVE = 1;
     private static final int LOAD_LOCATION = 2;
 
     private Button mStartButton, mStopButton, mMapButton;
@@ -42,11 +42,11 @@ public class DriveFragment extends Fragment {
 
         mDriveManager = DriveManager.getInstance(getActivity());
 
-        long driveId = getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0);
+        long driveId = getActivity().getIntent().getLongExtra(EXTRA_DRIVE_ID, 0);
 
         if (driveId != 0) {
             LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(LOAD_RUN, null, mDriveLoaderCallbacks);
+            loaderManager.initLoader(LOAD_DRIVE, null, mDriveLoaderCallbacks);
             loaderManager.initLoader(LOAD_LOCATION, null, mLocationLoaderCallbacks);
         }
     }
@@ -86,7 +86,7 @@ public class DriveFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), DriveMapActivity.class);
-                i.putExtra(EXTRA_RUN_ID, mDrive.getId());
+                i.putExtra(EXTRA_DRIVE_ID, mDrive.getId());
                 startActivity(i);
             }
         });
@@ -151,7 +151,7 @@ public class DriveFragment extends Fragment {
         getActivity().registerReceiver(mLocationReceiver,
                 new IntentFilter(DriveManager.ACTION_LOCATION));
 
-        long driveId = getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0);
+        long driveId = getActivity().getIntent().getLongExtra(EXTRA_DRIVE_ID, 0);
 
         if (driveId != 0) {
             mDrive = mDriveManager.getDrive(driveId);
@@ -186,7 +186,7 @@ public class DriveFragment extends Fragment {
                 @Override
                 public Loader<Drive> onCreateLoader(int id, Bundle args) {
                     return new DriveLoader(getActivity(),
-                            getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0));
+                            getActivity().getIntent().getLongExtra(EXTRA_DRIVE_ID, 0));
                 }
 
                 @Override
@@ -222,7 +222,7 @@ public class DriveFragment extends Fragment {
                 @Override
                 public Loader<Location> onCreateLoader(int id, Bundle args) {
                     return new LastLocationLoader(getActivity(),
-                            getActivity().getIntent().getLongExtra(EXTRA_RUN_ID, 0));
+                            getActivity().getIntent().getLongExtra(EXTRA_DRIVE_ID, 0));
                 }
 
                 @Override

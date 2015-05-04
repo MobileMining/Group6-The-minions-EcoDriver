@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 
 import java.text.SimpleDateFormat;

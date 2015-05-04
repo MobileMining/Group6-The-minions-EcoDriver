@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 
 import android.app.Notification;
@@ -29,9 +29,9 @@ import android.widget.TextView;
 
 public class DriveListFragment extends ListFragment {
 
-    private static final int REQUEST_NEW_RUN = 0;
+    private static final int REQUEST_NEW_DRIVE = 0;
 
-    private static final int LOAD_RUNS = 1;
+    private static final int LOAD_DRIVES = 1;
 
     private ActionMode mActionMode;
 
@@ -43,7 +43,7 @@ public class DriveListFragment extends ListFragment {
 
         setHasOptionsMenu(true);
 
-//        getLoaderManager().initLoader(LOAD_RUNS, null, mLoaderCallbacks);
+//        getLoaderManager().initLoader(LOAD_DRIVES, null, mLoaderCallbacks);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class DriveListFragment extends ListFragment {
                                 DriveManager driveManager = DriveManager.getInstance(getActivity());
                                 long currentDriveId = getActivity().getSharedPreferences(
                                         DriveManager.PREFS_FILE, Context.MODE_PRIVATE).getLong(
-                                        DriveManager.PREF_CURRENT_RUN_ID, 0);
+                                        DriveManager.PREF_CURRENT_DRIVE_ID, 0);
                                 for (int i = adapter.getCount() - 1; i >= 0; i--) {
                                     if (getListView().isItemChecked(i)) {
                                         DriveDatabaseHelper.DriveCursor driveCursor = (DriveDatabaseHelper.DriveCursor) adapter.getItem(i);
@@ -96,7 +96,7 @@ public class DriveListFragment extends ListFragment {
                                     }
                                 }
                                 actionMode.finish();
-                                getLoaderManager().restartLoader(LOAD_RUNS, null, mLoaderCallbacks);
+                                getLoaderManager().restartLoader(LOAD_DRIVES, null, mLoaderCallbacks);
                                 return true;
                             default:
                                 return false;
@@ -140,18 +140,18 @@ public class DriveListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        getLoaderManager().initLoader(LOAD_RUNS, null, mLoaderCallbacks);
+        getLoaderManager().initLoader(LOAD_DRIVES, null, mLoaderCallbacks);
 
         long currentDriveId = getActivity().getSharedPreferences(
                 DriveManager.PREFS_FILE, Context.MODE_PRIVATE).getLong(
-                DriveManager.PREF_CURRENT_RUN_ID, 0);
+                DriveManager.PREF_CURRENT_DRIVE_ID, 0);
 
         if (currentDriveId == 0) {
             return;
         }
 
         Intent i = new Intent(getActivity(), DriveActivity.class);
-        i.putExtra(DriveFragment.EXTRA_RUN_ID, currentDriveId);
+        i.putExtra(DriveFragment.EXTRA_DRIVE_ID, currentDriveId);
 
         PendingIntent pi = PendingIntent.getActivity(getActivity(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -214,7 +214,7 @@ public class DriveListFragment extends ListFragment {
         switch (item.getItemId()) {
             case R.id.menu_item_new_drive:
                 Intent i = new Intent(getActivity(), DriveActivity.class);
-                startActivityForResult(i, REQUEST_NEW_RUN);
+                startActivityForResult(i, REQUEST_NEW_DRIVE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -223,8 +223,8 @@ public class DriveListFragment extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (REQUEST_NEW_RUN == requestCode) {
-            getLoaderManager().restartLoader(LOAD_RUNS, null, mLoaderCallbacks);
+        if (REQUEST_NEW_DRIVE == requestCode) {
+            getLoaderManager().restartLoader(LOAD_DRIVES, null, mLoaderCallbacks);
         }
     }
 
@@ -232,7 +232,7 @@ public class DriveListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mActionMode == null) {
             Intent i = new Intent(getActivity(), DriveActivity.class);
-            i.putExtra(DriveFragment.EXTRA_RUN_ID, id);
+            i.putExtra(DriveFragment.EXTRA_DRIVE_ID, id);
             startActivity(i);
         }
     }

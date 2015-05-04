@@ -1,5 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">EcoDriver</string>
+
+    <string name="app_name">DriveTracker</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
     <string name="started">Started:</string>
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>
@@ -9,11 +14,18 @@
     <string name="stop">Stop</string>
     <string name="gps_enabled">GPS Enabled</string>
     <string name="gps_disabled">GPS Disabled</string>
+    <string name="cell_text">Drive at %1$s</string>
+
     <string name="new_drive">New Drive</string>
+
+    <string name="delete_drive">Delete Drive</string>
+
+    <string name="current_drive_id">Current Drive ID</string>
+
     <string name="map">Map</string>
     <string name="drive_start">Drive Start</string>
     <string name="drive_started_at_format">Drive started at %s</string>
     <string name="drive_finish">Drive Finish</string>
-    <string name="drive_finished_at_format">Drive finished at %s</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="drive_finished_at_format">Drive finished ad %s</string>
+
 </resources>

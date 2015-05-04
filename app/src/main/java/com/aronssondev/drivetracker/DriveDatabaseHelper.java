@@ -1,4 +1,4 @@
-package com.aronssondev.andreas.drivetracker;
+package com.aronssondev.drivetracker;
 
 
 import android.content.ContentValues;
@@ -16,9 +16,9 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
     private static final String DB_NAME = "drives.sqlite";
     private static final int VERSION = 1;
 
-    private static final String TABLE_RUN = "drive";
-    private static final String COLUMN_RUN_ID = "_id";
-    private static final String COLUMN_RUN_START_DATE = "start_date";
+    private static final String TABLE_DRIVE = "drive";
+    private static final String COLUMN_DRIVE_ID = "_id";
+    private static final String COLUMN_DRIVE_START_DATE = "start_date";
 
     private static final String TABLE_LOCATION = "location";
     private static final String COLUMN_LOCATION_ID = "_id";
@@ -27,12 +27,12 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
     private static final String COLUMN_LOCATION_LONGITUDE = "longitude";
     private static final String COLUMN_LOCATION_ALTITUDE = "altitude";
     private static final String COLUMN_LOCATION_PROVIDER = "provider";
-    private static final String COLUMN_LOCATION_RUN_ID = "drive_id";
+    private static final String COLUMN_LOCATION_DRIVE_ID = "drive_id";
 
-    private static final String CREATE_TABLE_RUN =
-            "CREATE TABLE " + TABLE_RUN + " (" +
-                    COLUMN_RUN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_RUN_START_DATE + " INTEGER" + ")";
+    private static final String CREATE_TABLE_DRIVE =
+            "CREATE TABLE " + TABLE_DRIVE + " (" +
+                    COLUMN_DRIVE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_DRIVE_START_DATE + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_LOCATION =
             "CREATE TABLE " + TABLE_LOCATION + " (" +
@@ -42,7 +42,7 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
                     COLUMN_LOCATION_LONGITUDE + " REAL, " +
                     COLUMN_LOCATION_ALTITUDE + " REAL, " +
                     COLUMN_LOCATION_PROVIDER + " VARCHAR(100), " +
-                    COLUMN_LOCATION_RUN_ID + " INTEGER REFERENCES drive(_id)" + ")";
+                    COLUMN_LOCATION_DRIVE_ID + " INTEGER REFERENCES drive(_id)" + ")";
 
     public DriveDatabaseHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -50,7 +50,7 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_RUN);
+        db.execSQL(CREATE_TABLE_DRIVE);
         db.execSQL(CREATE_TABLE_LOCATION);
     }
 
@@ -61,9 +61,9 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
 
     public long insertDrive(Drive drive) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_RUN_START_DATE, drive.getStartDate().getTime());
+        contentValues.put(COLUMN_DRIVE_START_DATE, drive.getStartDate().getTime());
 
-        return getWritableDatabase().insert(TABLE_RUN, null, contentValues);
+        return getWritableDatabase().insert(TABLE_DRIVE, null, contentValues);
     }
 
     public long insertLocation(long driveId, Location location) {
@@ -73,39 +73,39 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
         contentValues.put(COLUMN_LOCATION_LONGITUDE, location.getLongitude());
         contentValues.put(COLUMN_LOCATION_ALTITUDE, location.getAltitude());
         contentValues.put(COLUMN_LOCATION_PROVIDER, location.getProvider());
-        contentValues.put(COLUMN_LOCATION_RUN_ID, driveId);
+        contentValues.put(COLUMN_LOCATION_DRIVE_ID, driveId);
 
         return getWritableDatabase().insert(TABLE_LOCATION, null, contentValues);
     }
 
     public int deleteDrive(long driveId) {
-        return getWritableDatabase().delete(TABLE_RUN,
-                COLUMN_RUN_ID + " = ?", new String[] {driveId + ""});
+        return getWritableDatabase().delete(TABLE_DRIVE,
+                COLUMN_DRIVE_ID + " = ?", new String[] {driveId + ""});
     }
 
     public int deleteLocation(long driveId) {
         return getWritableDatabase().delete(TABLE_LOCATION,
-                COLUMN_LOCATION_RUN_ID + " = ?", new String[] {driveId + ""});
+                COLUMN_LOCATION_DRIVE_ID + " = ?", new String[] {driveId + ""});
     }
 
     public DriveCursor queryDrives() {
         Cursor cursor = getReadableDatabase().query(
-                TABLE_RUN,
+                TABLE_DRIVE,
                 null,
                 null,
                 null,
                 null,
                 null,
-                COLUMN_RUN_START_DATE + " ASC");
+                COLUMN_DRIVE_START_DATE + " ASC");
 
         return new DriveCursor(cursor);
     }
 
     public DriveCursor queryDrive(long driveId) {
         Cursor cursor = getReadableDatabase().query(
-                TABLE_RUN,
+                TABLE_DRIVE,
                 null,
-                COLUMN_RUN_ID + " = ?",
+                COLUMN_DRIVE_ID + " = ?",
                 new String[] {driveId + ""},
                 null,
                 null,
@@ -119,7 +119,7 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
         Cursor cursor = getReadableDatabase().query(
                 TABLE_LOCATION,
                 null,
-                COLUMN_LOCATION_RUN_ID + " = ?",
+                COLUMN_LOCATION_DRIVE_ID + " = ?",
                 new String[] {driveId + ""},
                 null,
                 null,
@@ -132,7 +132,7 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
         Cursor cursor = getReadableDatabase().query(
                 TABLE_LOCATION,
                 null,
-                COLUMN_LOCATION_RUN_ID + " = ?",
+                COLUMN_LOCATION_DRIVE_ID + " = ?",
                 new String[] {driveId + ""},
                 null,
                 null,
@@ -155,10 +155,10 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
 
             Drive drive = new Drive();
 
-            long driveId = getLong(getColumnIndex(COLUMN_RUN_ID));
+            long driveId = getLong(getColumnIndex(COLUMN_DRIVE_ID));
             drive.setId(driveId);
 
-            long startDate = getLong(getColumnIndex(COLUMN_RUN_START_DATE));
+            long startDate = getLong(getColumnIndex(COLUMN_DRIVE_START_DATE));
             drive.setStartDate(new Date(startDate));
 
             return drive;

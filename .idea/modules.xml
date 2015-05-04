@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EcoDriver.iml" filepath="$PROJECT_DIR$/EcoDriver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DriveTracker.iml" filepath="$PROJECT_DIR$/DriveTracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
