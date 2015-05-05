@@ -1,9 +1,8 @@
 package com.gu.gminions.db;
 
-
-import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.content.AsyncTaskLoader;
+import android.content.Context;
+import android.content.AsyncTaskLoader;
 
 public abstract class SQLiteCursorLoader extends AsyncTaskLoader<Cursor> {
 

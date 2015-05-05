@@ -3,7 +3,7 @@ package com.gu.gminions.db;
 /**
  * Created by jied on 24/04/15.
  */
-public class Log {
+public class Record {
     private String startTime;
     private String endTime;
     private double latitude;
