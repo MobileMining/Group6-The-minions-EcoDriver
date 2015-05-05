@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@android:color/background_dark">
+    android:background="@android:color/background_dark"
+    android:baselineAligned="false"
+    android:measureWithLargestChild="false">
 
     <!--
     <RadioButton
@@ -20,11 +22,15 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:clickable="true"
-        android:background="@android:drawable/checkbox_off_background" />
+        android:background="@android:drawable/checkbox_off_background"
+        android:singleLine="false"
+        android:elegantTextHeight="false"
+        android:ellipsize="end" />
 
     <LinearLayout android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:orientation="vertical"
         android:layout_gravity="left">
 
@@ -34,7 +40,8 @@
             android:id="@+id/timeRecord"
             android:text="time record"
             android:layout_gravity="left"
-            android:textColor="@android:color/background_light"/>
+            android:textColor="@android:color/background_light"
+            android:paddingTop="2dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +49,9 @@
             android:id="@+id/placeRecord"
             android:text="place record"
             android:layout_gravity="left"
-            android:textColor="@android:color/background_light"/>
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/abc_text_size_menu_material"
+            android:paddingBottom="2dp" />
     </LinearLayout>
 
 

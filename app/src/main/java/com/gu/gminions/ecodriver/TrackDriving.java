@@ -1,8 +1,5 @@
 package com.gu.gminions.ecodriver;
 
-import com.gu.gminions.db.*;
-
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,7 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gu.gminions.db.DriveDataSource;
+import com.gu.gminions.db.Trip;
 import com.swedspot.automotiveapi.AutomotiveFactory;
 import com.swedspot.automotiveapi.AutomotiveListener;
 import com.swedspot.vil.distraction.DriverDistractionLevel;
@@ -26,7 +26,6 @@ import com.swedspot.vil.policy.AutomotiveCertificate;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Random;
 
 
 public class TrackDriving extends ActionBarActivity {
@@ -56,8 +55,10 @@ public class TrackDriving extends ActionBarActivity {
                     btnStartStop.setText("Stop");
                     btnStartStop.setBackgroundColor(getResources().getColor(trackingStopBGColor));
                     startTracking();
+                    Toast.makeText(getApplicationContext(), "New trip gets started!", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    isTracking = false;
                     // add to database
                     DateFormat df = DateFormat.getDateTimeInstance();
                     String startTime = df.format(new Date());
@@ -66,9 +67,10 @@ public class TrackDriving extends ActionBarActivity {
                     trip.setStartTime(startTime);
                     dataSource.createTrip(trip);
 
-                    // get back to main activity
-                    Intent intent = new Intent(v.getContext(), MainActivity.class);
-                    startActivityForResult(intent, 0);
+                    // button turns to start
+                    btnStartStop.setText("Start");
+                    btnStartStop.setBackgroundColor(getResources().getColor(trackingStartBGColor));
+                    Toast.makeText(getApplicationContext(), "Trip ended and records saved!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -194,6 +196,7 @@ public class TrackDriving extends ActionBarActivity {
             }
         }.execute(); // And go!
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
