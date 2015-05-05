@@ -96,9 +96,9 @@ public class TrackDriving extends ActionBarActivity {
         final float MaxSpeed = 300.f;
         final float MaxRpm = 10000.f;
 
-        new AsyncTask() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Object doInBackground(Object... objects) {
+            protected Void doInBackground(Void... vs) {
                 AutomotiveFactory.createAutomotiveManagerInstance(
                         new AutomotiveCertificate(new byte[0]),
                         new AutomotiveListener() { // Listener that observes the Signals
@@ -194,7 +194,7 @@ public class TrackDriving extends ActionBarActivity {
                         AutomotiveSignalId.FMS_FUEL_LEVEL_1);       // fuel signal
                 return null;
             }
-        }.execute(); // And go!
+        }.execute();
     }
 
 

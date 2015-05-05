@@ -29,3 +29,14 @@ dependencies {
     compile files('libs/VIL-1.1.jar')
     compile 'org.slf4j:slf4j-android:1.7.10'
 }
+
+/*
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked"
+        }
+    }
+}
+*/
+
