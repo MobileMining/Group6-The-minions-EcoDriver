@@ -7,40 +7,32 @@
     tools:context="com.gu.gminions.ecodriver.AnalyzeDrives"
     android:background="@android:color/background_dark">
 
-    <ListView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/drivesListView"
-        android:layout_below="@+id/btnDelete"
-        android:background="@android:color/background_dark"
-        android:textColor="@android:color/background_light"
-        android:divider="@android:color/holo_green_dark"
-        android:fadingEdge="horizontal"
-        android:dividerHeight="0.1px"/>
-
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:id="@+id/btnAdd"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/holo_green_dark"
-        android:textSize="15sp"
-        android:textStyle="bold|normal"
-        android:textColor="@android:color/background_light"
-        android:clickable="true" /-->
+        android:layout_above="@+id/btnDelete"
+        android:layout_alignParentTop="true">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/drivesListView"
+            android:background="@android:color/background_dark"
+            android:textColor="@android:color/background_light"
+            android:divider="@android:color/holo_green_dark"
+            android:fadingEdge="horizontal"
+            android:dividerHeight="1px"
+            android:listSelector="@drawable/selector_listview" />
+    </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete"
         android:id="@+id/btnDelete"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
         android:background="@android:color/holo_green_dark"
-        android:textSize="15sp"
-        android:textStyle="bold|normal"
+        android:textSize="22sp"
         android:textColor="@android:color/background_light"
         android:clickable="true" />
 </RelativeLayout>

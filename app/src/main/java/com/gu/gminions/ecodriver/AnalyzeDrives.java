@@ -1,9 +1,8 @@
 package com.gu.gminions.ecodriver;
 
-import com.gu.gminions.db.*;
-
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -16,9 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.gu.gminions.db.DriveDataSource;
+import com.gu.gminions.db.Trip;
 
 import java.util.List;
 import java.util.Random;
@@ -35,6 +36,8 @@ public class AnalyzeDrives extends ActionBarActivity {
         private LayoutInflater inflater;
         private Context context;
 
+        private int selectedPosition = -1;
+
         public TripAdapter(Context cxt, int resourceId, List<Trip> objects){
             super(cxt, resourceId, objects);
             resource = resourceId;
@@ -43,7 +46,7 @@ public class AnalyzeDrives extends ActionBarActivity {
         }
 
         public View getView(final int position, View convertView, ViewGroup parent){
-            convertView = (LinearLayout) inflater.inflate(resource, null);
+            convertView = (ViewGroup) inflater.inflate(resource, null);
             final Trip trip = getItem(position);
 
             CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
@@ -71,7 +74,20 @@ public class AnalyzeDrives extends ActionBarActivity {
 
             TextView tvplaces = (TextView) convertView.findViewById(R.id.placeRecord);
             tvplaces.setText(startPlace + " - " + destination);
+
+            TextView tvRating = (TextView) convertView.findViewById(R.id.tvRating);
+            tvRating.setText("10");
             // TODO: remove debug
+
+            if (selectedPosition == position) {
+                convertView.setSelected(true);
+                convertView.setPressed(true);
+                convertView.setBackgroundColor(Color.RED);
+            } else {
+                convertView.setSelected(false);
+                convertView.setPressed(false);
+                convertView.setBackgroundColor(Color.TRANSPARENT);
+            }
 
             return convertView;
         }
@@ -90,13 +106,14 @@ public class AnalyzeDrives extends ActionBarActivity {
                 R.layout.activity_analyze_drives_listview_row,
                 dataSource.getAllTrips());
 
-        final ListView tripsListView =  (ListView) findViewById(R.id.drivesListView);
+        final ListView tripsListView = (ListView) findViewById(R.id.drivesListView);
         tripsListView.setAdapter(tripAdapter);
 
         //Trigger activity DriveDetails by clicking item
         tripsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tripsListView.setItemChecked(position, true);
                 Intent intent = new Intent(view.getContext(), DriveDetails.class);
                 Trip trip = (Trip) tripsListView.getItemAtPosition(position);
                 intent.putExtra("selectedTrip", trip);

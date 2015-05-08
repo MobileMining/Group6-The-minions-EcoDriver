@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
@@ -13,13 +13,15 @@
         android:id="@+id/driveDetail">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Trip"
             android:id="@+id/textViewTripTitle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/abc_text_size_headline_material" />
+            android:textSize="@dimen/abc_text_size_headline_material"
+            android:background="@android:color/holo_green_dark"
+            android:gravity="center"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -168,40 +170,45 @@
             android:layout_alignStart="@+id/textViewE" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Route Display"
             android:id="@+id/textViewRouteDisplay"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:textSize="@dimen/abc_text_size_large_material"
             android:layout_below="@+id/textViewR"
-            android:layout_alignStart="@+id/textViewR" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/holo_green_dark"
+            android:gravity="center"/>
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitStart"
             android:id="@+id/imageViewRoute"
             android:src="@drawable/temp_map_gothenborg_stockholm"
             android:layout_below="@+id/textViewRouteDisplay"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="2dp"
+            android:gravity="center"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Trip Logs"
+            android:text="Tips"
             android:id="@+id/textViewTripLogs"
             android:textSize="@dimen/abc_text_size_large_material"
             android:layout_marginTop="210dp"
             android:layout_alignTop="@+id/imageViewRoute"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/holo_green_dark"
+            android:gravity="center"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Trip Log"
+            android:text="Tips for trip."
             android:id="@+id/textViewTL"
             android:layout_below="@+id/textViewTripLogs"
             android:layout_alignParentStart="true"
