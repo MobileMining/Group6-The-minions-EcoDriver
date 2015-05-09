@@ -46,7 +46,7 @@
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version" />
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
-                   android:value="AIzaSyD3COE2blZAwsYyP--qtbzwfy8IY-838WI" />
+                   android:value="AIzaSyChOKpMq7i7SWK-64BYkdvCh_AE72NsiWk" />
     </application>
 
 </manifest>

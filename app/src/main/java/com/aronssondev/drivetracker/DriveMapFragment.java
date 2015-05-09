@@ -1,6 +1,7 @@
 package com.aronssondev.drivetracker;
 
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -28,7 +29,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
+/*
+DriveMapFragment.java
+Customise marker and lines look.
+ */
 public class DriveMapFragment extends SupportMapFragment {
 
     private static final int LOAD_LOCATIONS = 1;

@@ -52,7 +52,7 @@ public class DriveListFragment extends ListFragment {
 
         ListView listView = (ListView) v.findViewById(android.R.id.list);
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mActionMode != null) {
@@ -118,7 +118,7 @@ public class DriveListFragment extends ListFragment {
 
                 return true;
             }
-        });
+        });*/
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -43,7 +43,7 @@ public class Drive {
 
     public String getFormattedDate() {
         String format = "EEEE, MMM d, yyyy HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
         return sdf.format(mStartDate);
     }
 }

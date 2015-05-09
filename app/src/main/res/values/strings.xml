@@ -26,6 +26,6 @@
     <string name="drive_start">Drive Start</string>
     <string name="drive_started_at_format">Drive started at %s</string>
     <string name="drive_finish">Drive Finish</string>
-    <string name="drive_finished_at_format">Drive finished ad %s</string>
+    <string name="drive_finished_at_format">Drive finished at %s</string>
 
 </resources>
