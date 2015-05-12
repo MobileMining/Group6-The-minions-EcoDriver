@@ -1,7 +1,9 @@
 package com.gu.gminions.ecodriver;
 
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.swedspot.automotiveapi.AutomotiveSignal;
 import android.swedspot.automotiveapi.AutomotiveSignalId;
@@ -27,9 +29,15 @@ import com.swedspot.vil.policy.AutomotiveCertificate;
 import java.text.DateFormat;
 import java.util.Date;
 
+import static android.os.SystemClock.elapsedRealtime;
+
 
 public class TrackDriving extends ActionBarActivity {
 
+    private Handler handler;
+    private float rpm;
+    private MediaPlayer mediaPlayer;
+    private float lastWarningMilli = elapsedRealtime();
     private boolean isTracking;
     private final int trackingStartBGColor = android.R.color.holo_green_dark;
     private final int trackingStopBGColor = android.R.color.holo_red_dark;
@@ -39,6 +47,7 @@ public class TrackDriving extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_driving);
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.beep);
         isTracking = false;
 
         final DriveDataSource dataSource = new DriveDataSource(this);
@@ -66,6 +75,9 @@ public class TrackDriving extends ActionBarActivity {
                     Trip trip = new Trip();
                     trip.setStartTime(startTime);
                     dataSource.createTrip(trip);
+
+                    // Stop RPM warning timer
+                    handler.removeCallbacks(runnable);
 
                     // button turns to start
                     btnStartStop.setText("Start");
@@ -96,6 +108,9 @@ public class TrackDriving extends ActionBarActivity {
         final float MaxSpeed = 300.f;
         final float MaxRpm = 10000.f;
 
+        handler = new Handler();
+        handler.postDelayed(runnable, 100);
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... vs) {
@@ -122,7 +137,7 @@ public class TrackDriving extends ActionBarActivity {
                                     });
                                 }
                                 else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_ENGINE_SPEED) {
-                                    final float rpm = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+                                    rpm = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
 
                                     tvRpm.post(new Runnable() {
                                         @Override
@@ -197,6 +212,17 @@ public class TrackDriving extends ActionBarActivity {
         }.execute();
     }
 
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (rpm == 0 && lastWarningMilli + 15000 < elapsedRealtime()) {
+                mediaPlayer.start();
+                Toast.makeText(getApplicationContext(), "RPM too high!", Toast.LENGTH_SHORT).show();
+                lastWarningMilli = elapsedRealtime();
+            }
+            handler.postDelayed(runnable, 100);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
