@@ -40,6 +40,7 @@ public class DriveDataSource {
         values.put(COLUMN_TRIP_STARTMILEAGE, trip.getStartMileage());
         values.put(COLUMN_TRIP_ENDMILEAGE, trip.getEndMileage());
         values.put(COLUMN_TRIP_FUEL, trip.getFuelConsume());
+        values.put(COLUMN_TRIP_WARNING, trip.getTotalWarning());
         values.put(COLUMN_TRIP_RATING, trip.getRating());
 
         //insert row
@@ -95,6 +96,7 @@ public class DriveDataSource {
         trip.setStartMileage(cursor.getLong(valueIndex++));
         trip.setEndMileage(cursor.getLong(valueIndex++));
         trip.setFuelConsume(cursor.getLong(valueIndex++));
+        trip.setTotalWarning(cursor.getLong(valueIndex++));
         trip.setRating(cursor.getLong(valueIndex++));
         return trip;
     }

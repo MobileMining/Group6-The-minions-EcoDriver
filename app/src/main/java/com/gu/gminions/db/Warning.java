@@ -3,30 +3,40 @@ package com.gu.gminions.db;
 /**
  * Created by jied on 24/04/15.
  */
-public class Record {
-    private String startTime;
-    private String endTime;
+public class Warning {
+    private long warningId;
+    private long tripId;
+    private String time;
     private double latitude;
     private double longitude;
+    private double altitude;
     private long speed;
-    private long RPM;
-    private long fuelConsume;
+    //private long RPM;
+    //private long fuelConsume;
     private String type;
 
-    public String getStartTime(){
-        return startTime;
+    public long getWarningId(){
+        return warningId;
     }
 
-    public void setStartTime(String startTime){
-        this.startTime = startTime;
+    public void setWarningId(long warningId){
+        this.warningId = warningId;
     }
 
-    public String getEndTime(){
-        return endTime;
+    public long getTripId(){
+        return tripId;
     }
 
-    public void setEndTime(String endTime){
-        this.endTime = endTime;
+    public void setTripId(long tripId){
+        this.tripId = tripId;
+    }
+
+    public String getTime(){
+        return time;
+    }
+
+    public void setTime(String time){
+        this.time = time;
     }
 
     public double getLatitude(){
@@ -45,6 +55,14 @@ public class Record {
         this.longitude = longitude;
     }
 
+    public double getAltitude(){
+        return altitude;
+    }
+
+    public void setAltitude(double altitude){
+        this.altitude = altitude;
+    }
+
     public long getSpeed(){
         return speed;
     }
@@ -53,6 +71,7 @@ public class Record {
         this.speed = speed;
     }
 
+    /*
     public long getRPM(){
         return RPM;
     }
@@ -68,6 +87,7 @@ public class Record {
     public void setFuelConsume(long fuelConsume){
         this.fuelConsume = fuelConsume;
     }
+    */
 
     public String getType(){
         return type;

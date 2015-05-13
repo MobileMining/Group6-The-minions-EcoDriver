@@ -14,6 +14,7 @@ public class Trip implements Comparable<Trip>, Parcelable {
     private long startMileage;
     private long endMileage;
     private long fuelConsume;
+    private long totalWarning;
     private long rating;
 
     public int compareTo(Trip other) {
@@ -69,6 +70,14 @@ public class Trip implements Comparable<Trip>, Parcelable {
         this.fuelConsume = fuelConsume;
     }
 
+    public long getTotalWarning(){
+        return totalWarning;
+    }
+
+    public void setTotalWarning(long totalWarning){
+        this.totalWarning = totalWarning;
+    }
+
     public long getRating(){
         return rating;
     }
@@ -90,6 +99,7 @@ public class Trip implements Comparable<Trip>, Parcelable {
         dest.writeLong(startMileage);
         dest.writeLong(endMileage);
         dest.writeLong(fuelConsume);
+        dest.writeLong(totalWarning);
         dest.writeLong(rating);
     }
 
@@ -100,6 +110,7 @@ public class Trip implements Comparable<Trip>, Parcelable {
         startMileage = source.readLong();
         endMileage = source.readLong();
         fuelConsume = source.readLong();
+        totalWarning = source.readLong();
         rating = source.readLong();
     }
 

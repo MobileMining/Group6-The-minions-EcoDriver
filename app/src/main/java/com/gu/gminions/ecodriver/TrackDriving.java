@@ -20,6 +20,7 @@ import com.gu.gminions.db.DriveDataSource;
 import com.gu.gminions.db.Trip;
 import com.swedspot.automotiveapi.AutomotiveFactory;
 import com.swedspot.automotiveapi.AutomotiveListener;
+import com.swedspot.automotiveapi.AutomotiveManager;
 import com.swedspot.vil.distraction.DriverDistractionLevel;
 import com.swedspot.vil.distraction.DriverDistractionListener;
 import com.swedspot.vil.distraction.LightMode;
@@ -92,6 +93,8 @@ public class TrackDriving extends ActionBarActivity {
         ((ProgressBar)findViewById(R.id.pb_fuel)).setProgress(0);
     }
 
+    AutomotiveManager amApi;
+
     public void startTracking(){
         final TextView tvSpeed = (TextView)findViewById(R.id.tv_speed);
         final TextView tvRpm = (TextView)findViewById(R.id.tv_rpm);
@@ -114,7 +117,7 @@ public class TrackDriving extends ActionBarActivity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... vs) {
-                AutomotiveFactory.createAutomotiveManagerInstance(
+                amApi = AutomotiveFactory.createAutomotiveManagerInstance(
                         new AutomotiveCertificate(new byte[0]),
                         new AutomotiveListener() { // Listener that observes the Signals
                             @Override
@@ -132,11 +135,10 @@ public class TrackDriving extends ActionBarActivity {
                                     pbSpeed.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            pbSpeed.setProgress((int)(100.f*speed/MaxSpeed));
+                                            pbSpeed.setProgress((int) (100.f * speed / MaxSpeed));
                                         }
                                     });
-                                }
-                                else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_ENGINE_SPEED) {
+                                } else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_ENGINE_SPEED) {
                                     rpm = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
 
                                     tvRpm.post(new Runnable() {
@@ -149,11 +151,10 @@ public class TrackDriving extends ActionBarActivity {
                                     pbRpm.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            pbRpm.setProgress((int)(100.f*rpm/MaxRpm));
+                                            pbRpm.setProgress((int) (100.f * rpm / MaxRpm));
                                         }
                                     });
-                                }
-                                else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_FUEL_LEVEL_1) {
+                                } else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_FUEL_LEVEL_1) {
                                     final float fuel = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
 
                                     tvFuel.post(new Runnable() {
@@ -166,7 +167,7 @@ public class TrackDriving extends ActionBarActivity {
                                     pbFuel.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            pbFuel.setProgress((int)(fuel));
+                                            pbFuel.setProgress((int) (fuel));
                                         }
                                     });
                                 }
@@ -203,7 +204,8 @@ public class TrackDriving extends ActionBarActivity {
 
                             }
                         }
-                ).register(
+                );
+                amApi.register(
                         AutomotiveSignalId.FMS_WHEEL_BASED_SPEED,   // Register for the speed signal
                         AutomotiveSignalId.FMS_ENGINE_SPEED,        // RPM signal
                         AutomotiveSignalId.FMS_FUEL_LEVEL_1);       // fuel signal

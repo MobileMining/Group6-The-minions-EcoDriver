@@ -1,16 +1,15 @@
 package com.gu.gminions.db;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Location;
 
-import java.util.Date;
-
-import static com.gu.gminions.db.DriveDatabaseConfig.*;
+import static com.gu.gminions.db.DriveDatabaseConfig.CREATE_TABLE_TRIP;
+import static com.gu.gminions.db.DriveDatabaseConfig.CREATE_TABLE_WARNING;
+import static com.gu.gminions.db.DriveDatabaseConfig.DATABASE_NAME;
+import static com.gu.gminions.db.DriveDatabaseConfig.DATABASE_VERSION;
+import static com.gu.gminions.db.DriveDatabaseConfig.TABLE_TRIP;
+import static com.gu.gminions.db.DriveDatabaseConfig.TABLE_WARNING;
 
 public class DriveDatabaseHelper extends SQLiteOpenHelper{
     public DriveDatabaseHelper(Context context) {
@@ -20,14 +19,14 @@ public class DriveDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_TRIP);
-        db.execSQL(CREATE_TABLE_RECORD);
+        db.execSQL(CREATE_TABLE_WARNING);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // drop old version
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRIP);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECORD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WARNING);
 
         // create new ones
         onCreate(db);
