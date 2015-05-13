@@ -215,7 +215,7 @@ public class TrackDriving extends ActionBarActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (rpm == 0 && lastWarningMilli + 15000 < elapsedRealtime()) {
+            if (rpm > 3000 && lastWarningMilli + 15000 < elapsedRealtime()) {
                 mediaPlayer.start();
                 Toast.makeText(getApplicationContext(), "RPM too high!", Toast.LENGTH_SHORT).show();
                 lastWarningMilli = elapsedRealtime();
