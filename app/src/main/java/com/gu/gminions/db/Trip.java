@@ -11,6 +11,7 @@ public class Trip implements Comparable<Trip>, Parcelable {
     private long id;
     private String startTime;
     private String endTime;
+    private long duration;
     private long startMileage;
     private long endMileage;
     private long fuelConsume;
@@ -45,6 +46,13 @@ public class Trip implements Comparable<Trip>, Parcelable {
         this.endTime = endTime;
     }
 
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
 
     public long getStartMileage(){
         return startMileage;
@@ -96,6 +104,7 @@ public class Trip implements Comparable<Trip>, Parcelable {
         dest.writeLong(id);
         dest.writeString(startTime);
         dest.writeString(endTime);
+        dest.writeLong(duration);
         dest.writeLong(startMileage);
         dest.writeLong(endMileage);
         dest.writeLong(fuelConsume);
@@ -107,6 +116,7 @@ public class Trip implements Comparable<Trip>, Parcelable {
         id = source.readLong();
         startTime = source.readString();
         endTime = source.readString();
+        duration = source.readLong();
         startMileage = source.readLong();
         endMileage = source.readLong();
         fuelConsume = source.readLong();

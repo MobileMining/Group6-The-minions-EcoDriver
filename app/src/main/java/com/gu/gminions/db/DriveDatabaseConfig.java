@@ -16,6 +16,7 @@ public class DriveDatabaseConfig {
     static final String COLUMN_TRIP_ID = "trip_id";
     static final String COLUMN_TRIP_STARTTIME = "startTime";
     static final String COLUMN_TRIP_ENDTIME = "endTime";
+    static final String COLUMN_TRIP_DURATION = "duration";
     static final String COLUMN_TRIP_STARTMILEAGE = "startMileage";
     static final String COLUMN_TRIP_ENDMILEAGE = "endMileage";
     static final String COLUMN_TRIP_FUEL = "fuelConsume";
@@ -26,6 +27,7 @@ public class DriveDatabaseConfig {
             COLUMN_TRIP_ID,
             COLUMN_TRIP_STARTTIME,
             COLUMN_TRIP_ENDTIME,
+            COLUMN_TRIP_DURATION,
             COLUMN_TRIP_STARTMILEAGE,
             COLUMN_TRIP_ENDMILEAGE,
             COLUMN_TRIP_FUEL,
@@ -64,6 +66,7 @@ public class DriveDatabaseConfig {
             + COLUMN_TRIP_ID + " integer primary key autoincrement, "
             + COLUMN_TRIP_STARTTIME + " text not null, "
             + COLUMN_TRIP_ENDTIME + " text, "
+            + COLUMN_TRIP_DURATION + " integer, "
             + COLUMN_TRIP_STARTMILEAGE + " integer, "
             + COLUMN_TRIP_ENDMILEAGE + " integer, "
             + COLUMN_TRIP_FUEL + " integer, "

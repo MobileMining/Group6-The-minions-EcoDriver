@@ -39,8 +39,11 @@ public class DriveDetails extends ActionBarActivity {
             tripTime.setText(trip.getStartTime());
 
             TextView duration = (TextView) findViewById(R.id.textViewDur);
-            float tripDuration = 100; //trip.getEndTime() - trip.getStartTime(); //TODO: proper fix
-            duration.setText(String.valueOf(tripDuration));
+            long tripDuration = trip.getDuration() / 1000;
+            long sec = tripDuration % 60;
+            long min = (tripDuration / 60) % 60;
+            long hour = tripDuration / 3600;
+            duration.setText(String.format("%02d:%02d:%02d", hour, min, sec));
 
             TextView distance = (TextView) findViewById(R.id.textViewDis);
             float tripDist  = trip.getEndMileage() - trip.getStartMileage();

@@ -37,6 +37,7 @@ public class DriveDataSource {
 
         values.put(COLUMN_TRIP_STARTTIME, trip.getStartTime());
         values.put(COLUMN_TRIP_ENDTIME, trip.getEndTime());
+        values.put(COLUMN_TRIP_DURATION, trip.getDuration());
         values.put(COLUMN_TRIP_STARTMILEAGE, trip.getStartMileage());
         values.put(COLUMN_TRIP_ENDMILEAGE, trip.getEndMileage());
         values.put(COLUMN_TRIP_FUEL, trip.getFuelConsume());
@@ -93,6 +94,7 @@ public class DriveDataSource {
         trip.setId(cursor.getLong(valueIndex++));
         trip.setStartTime(cursor.getString(valueIndex++));
         trip.setEndTime(cursor.getString(valueIndex++));
+        trip.setDuration(cursor.getLong(valueIndex++));
         trip.setStartMileage(cursor.getLong(valueIndex++));
         trip.setEndMileage(cursor.getLong(valueIndex++));
         trip.setFuelConsume(cursor.getLong(valueIndex++));
