@@ -1,12 +1,12 @@
 package com.gu.gminions.ecodriver;
 
-import com.gu.gminions.db.*;
-
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.gu.gminions.db.Trip;
 
 import java.util.Random;
 
@@ -46,7 +46,7 @@ public class DriveDetails extends ActionBarActivity {
             duration.setText(String.format("%02d:%02d:%02d", hour, min, sec));
 
             TextView distance = (TextView) findViewById(R.id.textViewDis);
-            float tripDist  = trip.getEndMileage() - trip.getStartMileage();
+            float tripDist  = (trip.getEndMileage() - trip.getStartMileage()) / 1000.f;
             distance.setText(String.valueOf(tripDist));
 
             TextView avgSpeed = (TextView) findViewById(R.id.textViewAS);

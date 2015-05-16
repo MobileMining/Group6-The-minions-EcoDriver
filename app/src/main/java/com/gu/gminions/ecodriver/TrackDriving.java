@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.swedspot.automotiveapi.AutomotiveSignal;
 import android.swedspot.automotiveapi.AutomotiveSignalId;
 import android.swedspot.scs.data.SCSFloat;
-import android.swedspot.scs.data.SCSInteger;
+import android.swedspot.scs.data.SCSLong;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,8 +47,8 @@ public class TrackDriving extends ActionBarActivity {
     private DriveDataSource dataSource;
 
     private Date startTime;
-    private int startMileage;
-    private int endMileage;
+    private long startMileage;
+    private long endMileage;
     private float startFuel;
     private float endFuel;
 
@@ -127,6 +127,10 @@ public class TrackDriving extends ActionBarActivity {
         final float MaxRpm = 10000.f;
 
         startTime = new Date();
+        startMileage = 0;
+        endMileage = 0;
+        startFuel = 0;
+        endFuel = 0;
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -191,7 +195,7 @@ public class TrackDriving extends ActionBarActivity {
                                     endFuel = fuel;
 
                                 } else if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_HIGH_RESOLUTION_TOTAL_VEHICLE_DISTANCE) {
-                                    final int distance = ((SCSInteger) automotiveSignal.getData()).getIntValue();
+                                    final long distance = ((SCSLong) automotiveSignal.getData()).getLongValue();
 
                                     if(startMileage <= 0)
                                         startMileage = distance;
