@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+                android:background="@android:color/background_dark"
+                android:clickable="false">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Track Driving"
+        android:id="@+id/trackDriving_btn"
+        android:background="@android:color/holo_green_dark"
+        android:textColor="@android:color/background_light"
+        android:layout_above="@+id/analyzeDrives_btn"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="30dp"
+        style="@android:style/Widget.Button"
+        android:textStyle="bold|normal"
+        android:clickable="true"
+        android:textSize="25sp"
+        android:typeface="sans"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Analyze Driving"
+        android:id="@+id/analyzeDrives_btn"
+        android:background="@android:color/holo_green_dark"
+        android:textColor="@android:color/background_light"
+        style="@android:style/Widget.Button"
+        android:textStyle="bold|normal"
+        android:clickable="true"
+        android:textSize="25sp"
+        android:typeface="sans"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/main_pic"
+        android:layout_above="@+id/trackDriving_btn"
+        android:layout_alignEnd="@+id/trackDriving_btn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>
