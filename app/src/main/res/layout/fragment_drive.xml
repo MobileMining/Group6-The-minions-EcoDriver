@@ -101,6 +101,20 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginStart="5dp"
                 android:textSize="@dimen/abc_text_size_medium_material" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="StartStop"
+                android:id="@+id/buttonStartStop"
+                android:background="@android:color/holo_green_dark"
+                android:textColor="@android:color/background_light"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:textSize="22sp"
+                android:typeface="sans"
+                android:layout_column="8"/>
         </TableRow>
         <TableRow>
             <ProgressBar
@@ -170,16 +184,4 @@
                 android:progressDrawable="@drawable/drawable_pb_tracking"
                 android:layout_span="2"/>
         </TableRow>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="StartStop"
-        android:id="@+id/buttonStartStop"
-        android:background="@android:color/holo_green_dark"
-        android:textColor="@android:color/background_light"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:textSize="22sp"
-        android:typeface="sans"/>
 </TableLayout>

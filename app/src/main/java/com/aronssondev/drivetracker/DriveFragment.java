@@ -219,13 +219,13 @@ public class DriveFragment extends Fragment {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-    //        if (rpm > 3000 && lastWarningMilli + 15000 < elapsedRealtime()) {
-    //                mediaPlayer.start();
-                //Toast.makeText(getApplicationContext(), "RPM too high!", Toast.LENGTH_SHORT).show();
-        //        lastWarningMilli = elapsedRealtime();
+           if (rpm > 3000 && lastWarningMilli + 15000 < elapsedRealtime()) {
+                    mediaPlayer.start();
+                Toast.makeText(getActivity(), "RPM too high!", Toast.LENGTH_SHORT).show();
+               lastWarningMilli = elapsedRealtime();
             }
-      //      handler.postDelayed(runnable, 100);
-      //  }
+            handler.postDelayed(runnable, 100);
+        }
     };
 
 
@@ -286,10 +286,10 @@ public class DriveFragment extends Fragment {
 
                     Trip trip = new Trip();
                     trip.setStartTime(startTime);
-//                    dataSource.createTrip(trip);
+                   // dataSource.createTrip(trip);
 
                     // Stop RPM warning timer
-                   // handler.removeCallbacks(runnable);
+                    handler.removeCallbacks(runnable);
 
                     // button turns to start
                     btnStartStop.setText("Start");
