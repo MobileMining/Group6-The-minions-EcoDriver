@@ -46,17 +46,17 @@ public class DriveDetails extends ActionBarActivity {
             duration.setText(String.format("%02d:%02d:%02d", hour, min, sec));
 
             TextView distance = (TextView) findViewById(R.id.textViewDis);
-            float tripDist  = (trip.getEndMileage() - trip.getStartMileage()) / 1000.f;
-            distance.setText(String.valueOf(tripDist));
+            long tripDist  = (trip.getEndMileage() - trip.getStartMileage()) / 1000;
+            distance.setText(String.valueOf(tripDist) + " km");
 
             TextView avgSpeed = (TextView) findViewById(R.id.textViewAS);
-            avgSpeed.setText(String.valueOf(tripDist/tripDuration));
+            avgSpeed.setText(String.valueOf(tripDist/tripDuration) + " km/h");
 
             TextView avgRPM = (TextView) findViewById(R.id.textViewAR);
             avgRPM.setText(String.valueOf(0)); // trip.getAvgRPM())); // TODO: proper fix
 
             TextView fuel = (TextView) findViewById(R.id.textViewF);
-            fuel.setText(String.valueOf(trip.getFuelConsume()));
+            fuel.setText(String.valueOf(trip.getFuelConsume()) + "%");
 
             TextView emission = (TextView) findViewById(R.id.textViewE);
             emission.setText(String.valueOf(0)); // trip.getEmissionCO2())); // TODO: proper fix
