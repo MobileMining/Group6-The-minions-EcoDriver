@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
+
 import com.gu.gminions.db.Trip;
 
 import java.util.Random;
@@ -20,6 +23,24 @@ public class DriveDetails extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drive_details);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                LatLng got = new LatLng(57.7, 11.966667);
+
+                googleMap.setMyLocationEnabled(true);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(got, 13));
+
+                googleMap.addMarker(new MarkerOptions()
+                        .title("Gothenburg")
+                        .snippet("The amazing city.")
+                        .position(got));
+            }
+        });
+
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){

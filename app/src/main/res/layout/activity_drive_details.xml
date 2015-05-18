@@ -169,7 +169,7 @@
             android:layout_alignBottom="@+id/textViewRating"
             android:layout_alignStart="@+id/textViewE" />
 
-        <TextView
+        <!--TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Route Display"
@@ -190,7 +190,7 @@
             android:layout_below="@+id/textViewRouteDisplay"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
-            android:gravity="center"/>
+            android:gravity="center"/-->
 
         <TextView
             android:layout_width="match_parent"
@@ -198,8 +198,8 @@
             android:text="Tips"
             android:id="@+id/textViewTripLogs"
             android:textSize="@dimen/abc_text_size_large_material"
-            android:layout_marginTop="210dp"
-            android:layout_alignTop="@+id/imageViewRoute"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/textViewR"
             android:layout_centerHorizontal="true"
             android:background="@android:color/holo_green_dark"
             android:gravity="center"/>
@@ -213,6 +213,15 @@
             android:layout_below="@+id/textViewTripLogs"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"/>
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_below="@+id/textViewTL"
+            android:name="com.google.android.gms.maps.MapFragment" />
 
     </RelativeLayout>
 
