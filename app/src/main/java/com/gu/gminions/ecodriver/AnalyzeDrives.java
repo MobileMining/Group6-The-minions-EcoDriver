@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,12 +24,13 @@ import android.widget.TextView;
 import com.gu.gminions.db.DriveDataSource;
 import com.gu.gminions.db.Trip;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class AnalyzeDrives extends ActionBarActivity {
+public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.LoaderCallbacks<List<Trip>> {
 
     Set<Trip> mSelectedTrips = new TreeSet<Trip>();
 
@@ -94,17 +98,54 @@ public class AnalyzeDrives extends ActionBarActivity {
     }
 
     @Override
+    public Loader<List<Trip>> onCreateLoader(int loaderID, Bundle bundle){
+        return new AsyncTaskLoader<List<Trip>>(this) {
+            boolean needReload = true;
+
+            @Override
+            public List<Trip> loadInBackground() {
+                needReload = false;
+                return dataSource.getAllTrips();
+            }
+
+            @Override
+            public void deliverResult(List<Trip> trips) {
+                super.deliverResult(trips);
+            }
+
+            @Override
+            protected void onStartLoading() {
+                if(needReload)
+                    forceLoad();
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Trip>> loader, List<Trip> trips) {
+        tripAdapter.addAll(trips);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Trip>> loader) {
+    }
+
+
+    DriveDataSource dataSource;
+    TripAdapter tripAdapter;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyze_drives);
 
-        final DriveDataSource dataSource = new DriveDataSource(this);
+        dataSource = new DriveDataSource(this);
         dataSource.open();
 
-        final TripAdapter tripAdapter = new TripAdapter(
-                this,
-                R.layout.activity_analyze_drives_listview_row,
-                dataSource.getAllTrips());
+        tripAdapter = new TripAdapter(
+            this,
+            R.layout.activity_analyze_drives_listview_row,
+            new ArrayList<Trip>());
 
         final ListView tripsListView = (ListView) findViewById(R.id.drivesListView);
         tripsListView.setAdapter(tripAdapter);
@@ -151,6 +192,8 @@ public class AnalyzeDrives extends ActionBarActivity {
                 mSelectedTrips.clear();
             }
         });
+
+        getSupportLoaderManager().initLoader(-1, null, this);
     }
 
 

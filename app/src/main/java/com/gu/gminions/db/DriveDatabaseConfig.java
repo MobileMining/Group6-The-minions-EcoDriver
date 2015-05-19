@@ -11,6 +11,7 @@ public class DriveDatabaseConfig {
     // tables
     static final String TABLE_TRIP = "trip";
     static final String TABLE_WARNING = "warning";
+    static final String TABLE_LOCATION = "location";
 
     // table_trip
     static final String COLUMN_TRIP_ID = "trip_id";
@@ -40,9 +41,6 @@ public class DriveDatabaseConfig {
     static final String COLUMN_WARNING_TRIPID = "trip_id";
     static final String COLUMN_WARNING_TIME = "time";
     static final String COLUMN_WARNING_SPEED = "speed";
-    //static final String COLUMN_RECORD_RPM = "RPM";
-    //static final String COLUMN_RECORD_FUEL = "fuelConsume";
-    //static final String COLUMN_RECORD_TIMESTAMP = "timestamp";
     static final String COLUMN_WARNING_LATITUDE = "latitude";
     static final String COLUMN_WARNING_LONGITUDE = "longitude";
     static final String COLUMN_WARNING_ALTITUDE = "altitude";
@@ -53,15 +51,29 @@ public class DriveDatabaseConfig {
             COLUMN_WARNING_TRIPID,
             COLUMN_WARNING_TIME,
             COLUMN_WARNING_SPEED,
-            //COLUMN_RECORD_RPM,
-            //COLUMN_RECORD_FUEL,
-            //COLUMN_RECORD_TIMESTAMP,
             COLUMN_WARNING_LATITUDE,
             COLUMN_WARNING_LONGITUDE,
             COLUMN_WARNING_ALTITUDE,
             COLUMN_WARNING_TYPE,
     };
 
+    // table location
+    static final String COLUMN_LOCATION_ID = "warning_id";
+    static final String COLUMN_LOCATION_TRIPID = "trip_id";
+    static final String COLUMN_LOCATION_LATITUDE = "latitude";
+    static final String COLUMN_LOCATION_LONGITUDE = "longitude";
+    static final String COLUMN_LOCATION_ALTITUDE = "altitude";
+
+    static final String[] COLUMNS_LOCATION = {
+            COLUMN_LOCATION_ID,
+            COLUMN_LOCATION_TRIPID,
+            COLUMN_LOCATION_LATITUDE,
+            COLUMN_LOCATION_LONGITUDE,
+            COLUMN_LOCATION_ALTITUDE,
+    };
+
+
+    // sql commands
     static final String CREATE_TABLE_TRIP = "create table " + TABLE_TRIP + "("
             + COLUMN_TRIP_ID + " integer primary key autoincrement, "
             + COLUMN_TRIP_STARTTIME + " text not null, "
@@ -77,13 +89,16 @@ public class DriveDatabaseConfig {
             + COLUMN_WARNING_ID + " integer primary key autoincrement, "
             + COLUMN_WARNING_TRIPID + " integer, "
             + COLUMN_WARNING_TIME + " text not null, "
-            //+ COLUMN_RECORD_ENDTIME + " text not null, "
             + COLUMN_WARNING_SPEED + " real, "
-            //+ COLUMN_RECORD_RPM + " integer, "
-            //+ COLUMN_RECORD_FUEL + " integer, "
-            //+ COLUMN_RECORD_TIMESTAMP + " integer, "
             + COLUMN_WARNING_LATITUDE + " real, "
             + COLUMN_WARNING_LONGITUDE + " real, "
             + COLUMN_WARNING_ALTITUDE + " real, "
             + COLUMN_WARNING_TYPE + " varchar(100));";
+
+    static final String CREATE_TABLE_LOCATION = "create table " + TABLE_LOCATION + "("
+            + COLUMN_LOCATION_ID + " integer primary key autoincrement, "
+            + COLUMN_LOCATION_TRIPID + " integer, "
+            + COLUMN_LOCATION_LATITUDE + " real, "
+            + COLUMN_LOCATION_LONGITUDE + " real, "
+            + COLUMN_LOCATION_ALTITUDE + " real);";
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,33 +33,51 @@ public class DriveDataSource {
         dbHelper.close();
     }
 
-    public long createTrip(Trip trip) {
-        ContentValues values = new ContentValues();
+    public long createTrip(Trip trip, List<Location> locations) {
+        // add trip
+        ContentValues tripValues = new ContentValues();
 
-        values.put(COLUMN_TRIP_STARTTIME, trip.getStartTime());
-        values.put(COLUMN_TRIP_ENDTIME, trip.getEndTime());
-        values.put(COLUMN_TRIP_DURATION, trip.getDuration());
-        values.put(COLUMN_TRIP_STARTMILEAGE, trip.getStartMileage());
-        values.put(COLUMN_TRIP_ENDMILEAGE, trip.getEndMileage());
-        values.put(COLUMN_TRIP_FUEL, trip.getFuelConsume());
-        values.put(COLUMN_TRIP_WARNING, trip.getTotalWarning());
-        values.put(COLUMN_TRIP_RATING, trip.getRating());
+        tripValues.put(COLUMN_TRIP_STARTTIME, trip.getStartTime());
+        tripValues.put(COLUMN_TRIP_ENDTIME, trip.getEndTime());
+        tripValues.put(COLUMN_TRIP_DURATION, trip.getDuration());
+        tripValues.put(COLUMN_TRIP_STARTMILEAGE, trip.getStartMileage());
+        tripValues.put(COLUMN_TRIP_ENDMILEAGE, trip.getEndMileage());
+        tripValues.put(COLUMN_TRIP_FUEL, trip.getFuelConsume());
+        tripValues.put(COLUMN_TRIP_WARNING, trip.getTotalWarning());
+        tripValues.put(COLUMN_TRIP_RATING, trip.getRating());
 
         //insert row
-        long id = database.insert(TABLE_TRIP, null, values);
+        long tripId = database.insert(TABLE_TRIP, null, tripValues);
 
+        /*
         Cursor cursor = database.query(
                 TABLE_TRIP,
                 COLUMNS_TRIP,
-                COLUMN_TRIP_ID + " = " + id,
+                COLUMN_TRIP_ID + " = " + tripId,
                 null,
                 null,
                 null,
                 null);
+        */
 
-        trip.setId(id);
+        trip.setId(tripId);
 
-        return id;
+        // add locations
+        if (locations != null) {
+            for(Location loc : locations) {
+                ContentValues locationValues = new ContentValues();
+
+                locationValues.put(COLUMN_LOCATION_TRIPID, tripId);
+                locationValues.put(COLUMN_LOCATION_LATITUDE, loc.getLatitude());
+                locationValues.put(COLUMN_LOCATION_LONGITUDE, loc.getLongitude());
+                locationValues.put(COLUMN_LOCATION_ALTITUDE, loc.getAltitude());
+
+                //insert row
+                database.insert(TABLE_LOCATION, null, locationValues);
+            }
+        }
+
+        return tripId;
     }
 
     public void deleteTrip(long tripId){
@@ -88,6 +107,28 @@ public class DriveDataSource {
         return trips;
     }
 
+    public List<LocationInfo> getTripAllLocations(long tripId) {
+        List<LocationInfo> locations = new ArrayList();
+
+        Cursor cursor = database.query(
+                TABLE_LOCATION,
+                COLUMNS_LOCATION,
+                COLUMN_LOCATION_TRIPID + " = " + tripId,
+                null,
+                null,
+                null,
+                null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            locations.add(cursorToLocationInfo(cursor));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return locations;
+    }
+
     private Trip cursorToTrip(Cursor cursor){
         Trip trip = new Trip();
         int valueIndex = 0;
@@ -103,4 +144,14 @@ public class DriveDataSource {
         return trip;
     }
 
+    private LocationInfo cursorToLocationInfo(Cursor cursor) {
+        LocationInfo locInfo = new LocationInfo();
+        int valueIndex = 0;
+        locInfo.setLocationId(cursor.getLong(valueIndex++));
+        locInfo.setTripId(cursor.getLong(valueIndex++));
+        locInfo.setLatitude(cursor.getDouble(valueIndex++));
+        locInfo.setLongitude(cursor.getDouble(valueIndex++));
+        locInfo.setAltitude(cursor.getDouble(valueIndex++));
+        return locInfo;
+    }
 }

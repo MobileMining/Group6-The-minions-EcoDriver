@@ -1,5 +1,7 @@
 package com.gu.gminions.ecodriver;
 
+import android.location.Location;
+import android.location.LocationListener;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.location.LocationManager;
 
 import com.gu.gminions.db.DriveDataSource;
 import com.gu.gminions.db.Trip;
@@ -29,6 +32,7 @@ import com.swedspot.vil.policy.AutomotiveCertificate;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.ArrayList;
 
 import static android.os.SystemClock.elapsedRealtime;
 
@@ -51,6 +55,8 @@ public class TrackDriving extends ActionBarActivity {
     private long endMileage;
     private float startFuel;
     private float endFuel;
+
+    private ArrayList<Location> trackedLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +116,7 @@ public class TrackDriving extends ActionBarActivity {
         ((ProgressBar) findViewById(R.id.pb_fuel)).setProgress(0);
     }
 
-    private void startTracking(){
+    private void startTrackingAutomotive() {
         final TextView tvSpeed = (TextView)findViewById(R.id.tv_speed);
         final TextView tvRpm = (TextView)findViewById(R.id.tv_rpm);
         final TextView tvFuel = (TextView)findViewById(R.id.tv_fuel);
@@ -237,6 +243,44 @@ public class TrackDriving extends ActionBarActivity {
         }.execute();
     }
 
+    private void startTrackingLocation() {
+        trackedLocations = new ArrayList<Location>();
+
+        final long updateInterval = 1000; // every 1 sec
+        final float updateDistance = 10; // every 10 meters
+
+        ((LocationManager) this.getSystemService(this.LOCATION_SERVICE)).requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                updateInterval,
+                updateDistance,
+                new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        trackedLocations.add(location);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                });
+    }
+
+    private void startTracking(){
+        startTrackingAutomotive();
+        startTrackingLocation();
+    }
+
     private void stopTracking() {
         // add to database
         if(dataSource != null) {
@@ -252,7 +296,8 @@ public class TrackDriving extends ActionBarActivity {
             trip.setEndMileage(endMileage);
             trip.setFuelConsume((long)(startFuel - endFuel));
 
-            dataSource.createTrip(trip);
+            dataSource.createTrip(trip, trackedLocations);
+            trackedLocations = null;
         }
     }
 
