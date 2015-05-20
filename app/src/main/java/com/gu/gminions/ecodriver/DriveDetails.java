@@ -1,6 +1,5 @@
 package com.gu.gminions.ecodriver;
 
-import com.gu.gminions.db.*;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -10,13 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
-
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.gu.gminions.db.DriveDataSource;
+import com.gu.gminions.db.LocationInfo;
 import com.gu.gminions.db.Trip;
 
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -36,13 +40,13 @@ public class DriveDetails extends ActionBarActivity implements LoaderManager.Loa
             trip = extras.getParcelable("selectedTrip");
 
             // TODO: proper fix
-            String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
-            Random rand = new Random();
-            String startPlace = places[rand.nextInt(7)];
-            String destination = places[rand.nextInt(7)];
+            //String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
+            //Random rand = new Random();
+            //String startPlace = places[rand.nextInt(7)];
+            //String destination = places[rand.nextInt(7)];
 
             TextView tripTitle = (TextView) findViewById(R.id.textViewTripTitle);
-            tripTitle.setText("Trip of " + startPlace + " - " + destination);
+            //tripTitle.setText("Trip of " + startPlace + " - " + destination);
             // TODO: proper fix
 
             TextView tripTime = (TextView) findViewById(R.id.textViewTT);
@@ -57,7 +61,7 @@ public class DriveDetails extends ActionBarActivity implements LoaderManager.Loa
 
             TextView distance = (TextView) findViewById(R.id.textViewDis);
             long tripDist  = (trip.getEndMileage() - trip.getStartMileage()) / 1000;
-            distance.setText(String.valueOf(tripDist) + " km");
+            distance.setText(String.valueOf(tripDist) + " km");  // TODO: *3600 for final code
 
             TextView avgSpeed = (TextView) findViewById(R.id.textViewAS);
             avgSpeed.setText(String.valueOf(tripDist/tripDuration) + " km/h");
@@ -151,7 +155,7 @@ public class DriveDetails extends ActionBarActivity implements LoaderManager.Loa
                         sumLat += lat;
                         sumLng += lng;
 
-                        po.add(new LatLng(lat, lng));
+                        po = po.add(new LatLng(lat, lng));
                     }
                     googleMap.addPolyline(po);
 

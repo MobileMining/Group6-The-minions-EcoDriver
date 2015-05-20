@@ -41,12 +41,15 @@
             android:value="@integer/google_play_services_version" />
 
         <!--key for janet PC-->
-        <!--meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBadKJtEORLm0CiWtQiHAHV0ilXhp5yKzs" /-->
+        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBadKJtEORLm0CiWtQiHAHV0ilXhp5yKzs" />
 
         <!--key for janet macbook-->
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCfwq0Pxg6fO_dbLU5uLoC-nn9ocgi7o7o" />
+        <!--meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCfwq0Pxg6fO_dbLU5uLoC-nn9ocgi7o7o" /-->
+
+        <!--meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyChOKpMq7i7SWK-64BYkdvCh_AE72NsiWk" /-->
         
     </application>
 

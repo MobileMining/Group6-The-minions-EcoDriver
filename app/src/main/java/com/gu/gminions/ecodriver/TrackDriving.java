@@ -236,7 +236,7 @@ public class TrackDriving extends ActionBarActivity {
                         AutomotiveSignalId.FMS_WHEEL_BASED_SPEED,   // Register for the speed signal
                         AutomotiveSignalId.FMS_ENGINE_SPEED,        // RPM signal
                         AutomotiveSignalId.FMS_FUEL_LEVEL_1,       // fuel signal
-                        AutomotiveSignalId.FMS_HIGH_RESOLUTION_TOTAL_VEHICLE_DISTANCE);
+                        AutomotiveSignalId.FMS_HIGH_RESOLUTION_TOTAL_VEHICLE_DISTANCE);  // distance signal
 
                 return null;
             }
@@ -246,8 +246,8 @@ public class TrackDriving extends ActionBarActivity {
     private void startTrackingLocation() {
         trackedLocations = new ArrayList<Location>();
 
-        final long updateInterval = 1000; // every 1 sec
-        final float updateDistance = 10; // every 10 meters
+        final long updateInterval = 15000; // every 15 sec
+        final float updateDistance = 100; // every 100 meters
 
         ((LocationManager) this.getSystemService(this.LOCATION_SERVICE)).requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
