@@ -22,6 +22,7 @@ import android.location.LocationManager;
 
 import com.gu.gminions.db.DriveDataSource;
 import com.gu.gminions.db.Trip;
+import com.gu.gminions.db.Warning;
 import com.swedspot.automotiveapi.AutomotiveFactory;
 import com.swedspot.automotiveapi.AutomotiveListener;
 import com.swedspot.vil.distraction.DriverDistractionLevel;
@@ -58,18 +59,22 @@ public class TrackDriving extends ActionBarActivity {
     private float endFuel;
 
     private ArrayList<Location> trackedLocations;
+    private ArrayList<Warning> warnings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_driving);
 
+        // Load sound
         mediaPlayer = MediaPlayer.create(this, R.raw.beep);
 
         dataSource = new DriveDataSource(this);
         dataSource.open();
 
         isTracking = false;
+
+        warnings = new ArrayList<Warning>();
 
         final Button btnStartStop = (Button) findViewById(R.id.buttonStartStop);
         btnStartStop.setText("Start");
@@ -297,7 +302,7 @@ public class TrackDriving extends ActionBarActivity {
             trip.setEndMileage(endMileage);
             trip.setFuelConsume((long)(startFuel - endFuel));
 
-            dataSource.createTrip(trip, trackedLocations);
+            dataSource.createTrip(trip, warnings, trackedLocations);
             trackedLocations = null;
         }
     }
@@ -315,7 +320,7 @@ public class TrackDriving extends ActionBarActivity {
                 else if (speed > lastSpeed + 11.2){
                     warningMessage("Hard acceleration!", 3);
                 }
-                else if (speed > lastSpeed - 11.2){
+                else if (speed < lastSpeed - 11.2){
                     warningMessage("Hard brake!", 4);
                 }
             }
@@ -326,10 +331,26 @@ public class TrackDriving extends ActionBarActivity {
     };
 
     private void warningMessage(String msg, int type){
+        // Play sound and display message to driver
         if (soundOn) {
             mediaPlayer.start();
         }
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+        // Log the warning into database
+        DateFormat df = DateFormat.getDateTimeInstance();
+        Date time = new Date();
+        Location currentLocation = new Location(this.LOCATION_SERVICE);
+
+        Warning warning = new Warning();
+        warning.setTime(df.format(time));
+        warning.setSpeed(speed);
+        warning.setAltitude(currentLocation.getAltitude());
+        warning.setLatitude(currentLocation.getLatitude());
+        warning.setLongitude(currentLocation.getLongitude());
+        warning.setType(type);
+        warnings.add(warning);
+
         lastWarningMilli = elapsedRealtime();
     }
 
