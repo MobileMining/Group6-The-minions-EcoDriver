@@ -97,7 +97,7 @@
             android:layout_alignBottom="@+id/textViewAvgSpeed"
             android:layout_alignStart="@+id/textViewDis" />
 
-        <TextView
+  <!--      <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Avg RPM"
@@ -113,14 +113,14 @@
             android:text="AvgRPM"
             android:id="@+id/textViewAR"
             android:layout_alignBottom="@+id/textViewAvgRPM"
-            android:layout_alignStart="@+id/textViewAS" />
+            android:layout_alignStart="@+id/textViewAS" />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fuel Consume"
             android:id="@+id/textViewFuel"
-            android:layout_below="@+id/textViewAvgRPM"
+            android:layout_below="@+id/textViewAvgSpeed"
             android:layout_alignParentStart="true"
             android:layout_marginTop="5dp"
             android:textSize="@dimen/abc_text_size_menu_material" />
@@ -131,9 +131,9 @@
             android:text="Fuel"
             android:id="@+id/textViewF"
             android:layout_alignBottom="@+id/textViewFuel"
-            android:layout_alignStart="@+id/textViewAR" />
+            android:layout_alignStart="@+id/textViewAS" />
 
-        <TextView
+   <!--     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Emission CO2"
@@ -149,14 +149,14 @@
             android:text="Emission"
             android:id="@+id/textViewE"
             android:layout_alignBottom="@+id/textViewEmission"
-            android:layout_alignStart="@+id/textViewF" />
+            android:layout_alignStart="@+id/textViewF" />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rating"
             android:id="@+id/textViewRating"
-            android:layout_below="@+id/textViewE"
+            android:layout_below="@+id/textViewFuel"
             android:layout_alignParentStart="true"
             android:layout_marginTop="5dp"
             android:textSize="@dimen/abc_text_size_menu_material" />
@@ -167,7 +167,7 @@
             android:text="Rating"
             android:id="@+id/textViewR"
             android:layout_alignBottom="@+id/textViewRating"
-            android:layout_alignStart="@+id/textViewE" />
+            android:layout_alignStart="@+id/textViewAS" />
 
         <!--TextView
             android:layout_width="match_parent"

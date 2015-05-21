@@ -65,15 +65,16 @@ public class DriveDetails extends ActionBarActivity implements LoaderManager.Loa
 
             TextView avgSpeed = (TextView) findViewById(R.id.textViewAS);
             avgSpeed.setText(String.valueOf(tripDist/tripDuration) + " km/h");
-
+/*
             TextView avgRPM = (TextView) findViewById(R.id.textViewAR);
-            avgRPM.setText(String.valueOf(0)); // trip.getAvgRPM())); // TODO: proper fix
+            avgRPM.setText(String.valueOf(0)); // trip.getAvgRPM())); // TODO: proper fix*/
 
             TextView fuel = (TextView) findViewById(R.id.textViewF);
             fuel.setText(String.valueOf(trip.getFuelConsume()) + "%");
-
+/*
             TextView emission = (TextView) findViewById(R.id.textViewE);
             emission.setText(String.valueOf(0)); // trip.getEmissionCO2())); // TODO: proper fix
+            //1.2 g/litre*/
         }
 
         TextView tripLog = (TextView) findViewById(R.id.textViewTL);
