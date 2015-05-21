@@ -10,10 +10,10 @@ public class Warning {
     private double latitude;
     private double longitude;
     private double altitude;
-    private long speed;
+    private float speed;
     //private long RPM;
     //private long fuelConsume;
-    private String type;
+    private Integer type;
 
     public long getWarningId(){
         return warningId;
@@ -63,11 +63,11 @@ public class Warning {
         this.altitude = altitude;
     }
 
-    public long getSpeed(){
+    public float getSpeed(){
         return speed;
     }
 
-    public void setSpeed(long speed){
+    public void setSpeed(float speed){
         this.speed = speed;
     }
 
@@ -89,11 +89,11 @@ public class Warning {
     }
     */
 
-    public String getType(){
+    public Integer getType(){
         return type;
     }
 
-    public void setType(String type){
+    public void setType(Integer type){
         this.type = type;
     }
 }

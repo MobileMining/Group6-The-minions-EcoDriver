@@ -93,7 +93,7 @@ public class DriveDatabaseConfig {
             + COLUMN_WARNING_LATITUDE + " real, "
             + COLUMN_WARNING_LONGITUDE + " real, "
             + COLUMN_WARNING_ALTITUDE + " real, "
-            + COLUMN_WARNING_TYPE + " varchar(100));";
+            + COLUMN_WARNING_TYPE + " integer);";
 
     static final String CREATE_TABLE_LOCATION = "create table " + TABLE_LOCATION + "("
             + COLUMN_LOCATION_ID + " integer primary key autoincrement, "

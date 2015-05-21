@@ -33,7 +33,7 @@ public class DriveDataSource {
         dbHelper.close();
     }
 
-    public long createTrip(Trip trip, List<Location> locations) {
+    public long createTrip(Trip trip, List<Warning> warnings, List<Location> locations) {
         // add trip
         ContentValues tripValues = new ContentValues();
 
@@ -61,6 +61,23 @@ public class DriveDataSource {
         */
 
         trip.setId(tripId);
+
+        // add warnings
+        if (warnings != null){
+            for(Warning wn : warnings) {
+                ContentValues warningValues = new ContentValues();
+
+                warningValues.put(COLUMN_WARNING_TRIPID, tripId);
+                warningValues.put(COLUMN_WARNING_TIME, wn.getTime());
+                warningValues.put(COLUMN_WARNING_SPEED, wn.getSpeed());
+                warningValues.put(COLUMN_WARNING_LATITUDE, wn.getLatitude());
+                warningValues.put(COLUMN_WARNING_LONGITUDE, wn.getLongitude());
+                warningValues.put(COLUMN_WARNING_ALTITUDE, wn.getAltitude());
+                warningValues.put(COLUMN_WARNING_TYPE, wn.getType());
+
+                database.insert(TABLE_WARNING, null, warningValues);
+            }
+        }
 
         // add locations
         if (locations != null) {
