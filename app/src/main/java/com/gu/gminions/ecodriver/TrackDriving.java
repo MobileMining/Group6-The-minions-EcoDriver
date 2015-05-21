@@ -40,7 +40,8 @@ import static android.os.SystemClock.elapsedRealtime;
 public class TrackDriving extends ActionBarActivity {
 
     private Handler handler;
-    private float rpm;
+    private float rpm, speed, lastSpeed;
+    private boolean soundOn = true;
     private MediaPlayer mediaPlayer;
     private float lastWarningMilli = elapsedRealtime();
 
@@ -148,7 +149,7 @@ public class TrackDriving extends ActionBarActivity {
                             public void receive(final AutomotiveSignal automotiveSignal) {
                                 if (automotiveSignal.getSignalId() == AutomotiveSignalId.FMS_WHEEL_BASED_SPEED) {
 
-                                    final float speed = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
+                                    speed = ((SCSFloat) automotiveSignal.getData()).getFloatValue();
 
                                     tvSpeed.post(new Runnable() { // Post the result back to the View/UI thread
                                         public void run() {
@@ -304,14 +305,33 @@ public class TrackDriving extends ActionBarActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (rpm > 3000 && lastWarningMilli + 15000 < elapsedRealtime()) {
-                mediaPlayer.start();
-                Toast.makeText(getApplicationContext(), "RPM too high!", Toast.LENGTH_SHORT).show();
-                lastWarningMilli = elapsedRealtime();
+            if (lastWarningMilli + 15000 < elapsedRealtime()){
+                if (rpm > 2000) {
+                    warningMessage("RPM is high!", 1);
+                }
+                else if (rpm > 2500) {
+                    warningMessage("RPM is very high!", 2);
+                }
+                else if (speed > lastSpeed + 11.2){
+                    warningMessage("Hard acceleration!", 3);
+                }
+                else if (speed > lastSpeed - 11.2){
+                    warningMessage("Hard brake!", 4);
+                }
             }
-            handler.postDelayed(runnable, 100);
+
+            lastSpeed = speed;
+            handler.postDelayed(runnable, 1000);
         }
     };
+
+    private void warningMessage(String msg, int type){
+        if (soundOn) {
+            mediaPlayer.start();
+        }
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        lastWarningMilli = elapsedRealtime();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -330,6 +350,9 @@ public class TrackDriving extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.warning_sound) {
+            soundOn = !soundOn;
         }
 
         return super.onOptionsItemSelected(item);
