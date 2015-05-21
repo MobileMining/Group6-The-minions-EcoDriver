@@ -3,6 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_warning">Warning sound</string>
     <string name="title_activity_track_driving">TrackDriving</string>
     <string name="title_activity_analyze_drives">AnalyzeDrives</string>
 </resources>
