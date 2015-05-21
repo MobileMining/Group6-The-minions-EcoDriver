@@ -84,11 +84,11 @@ public class TrackDriving extends ActionBarActivity {
                     // update tip
                     Toast.makeText(getApplicationContext(), "New trip gets started!", Toast.LENGTH_SHORT).show();
 
-                    //
+                    // start RPM warning timer
                     handler = new Handler();
                     handler.postDelayed(runnable, 100);
 
-                    //
+                    // get started with tracking
                     startTracking();
 
                     isTracking = true;
@@ -103,7 +103,7 @@ public class TrackDriving extends ActionBarActivity {
                     // Stop RPM warning timer
                     handler.removeCallbacks(runnable);
 
-                    //
+                    // stop with tracking
                     stopTracking();
 
                     isTracking = false;

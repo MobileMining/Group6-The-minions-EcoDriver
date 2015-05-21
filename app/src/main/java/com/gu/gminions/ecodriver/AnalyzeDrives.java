@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Random;
 
 public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.LoaderCallbacks<List<Trip>> {
 
@@ -83,7 +82,7 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
 
             // TODO: remove debug, calculate rating
             TextView tvRating = (TextView) convertView.findViewById(R.id.tvRating);
-            tvRating.setText("10");
+            tvRating.setText("7");
 
 
             //change background color of Rating
@@ -128,7 +127,7 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
             {
                 tvRating.setBackgroundColor(Color.parseColor("#fa4c2a"));
             }
-            //end of changecolor
+            //end of change color
 
 
             if (selectedPosition == position) {
@@ -155,7 +154,7 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
                 needReload = false;
                 List<Trip> reversedTrips = new ArrayList<Trip>();
                 for(Trip trip : dataSource.getAllTrips())
-                    reversedTrips.add(0, trip);
+                    reversedTrips.add(0, trip);  // with latest record always on top
                 return reversedTrips;
             }
 
@@ -212,26 +211,6 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
                 startActivityForResult(intent, 0);
             }
         });
-
-        /*
-        Button btnAdd = (Button) findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                DateFormat df = DateFormat.getDateTimeInstance();
-                String startTime = df.format(new Date());
-
-                String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
-                Random rand = new Random();
-                String startPlace = places[rand.nextInt(7)];
-                String destination = places[rand.nextInt(7)];
-                Trip trip = dataSource.createTrip(startTime, null, null, 0, 0, 0,
-                        startPlace, destination, 0, 0, 0, 0, 0);
-
-                tripAdapter.add(trip);
-                tripAdapter.notifyDataSetChanged();  //adapter has been changed.
-            }
-        });
-        */
 
         Button btnDelete = (Button) findViewById(R.id.btnDelete);
         btnDelete.setOnClickListener(new View.OnClickListener(){
