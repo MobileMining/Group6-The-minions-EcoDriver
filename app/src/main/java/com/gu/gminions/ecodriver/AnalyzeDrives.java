@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Random;
 
 public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.LoaderCallbacks<List<Trip>> {
 
@@ -38,7 +39,9 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
         private int resource;
         private LayoutInflater inflater;
         private Context context;
-
+        private final int goodRatingColor = android.R.color.holo_green_dark;
+        private final int mediaRatingColor = android.R.color.holo_orange_dark;
+        private final int badRatingColor = android.R.color.holo_red_dark;
         private int selectedPosition = -1;
 
         public TripAdapter(Context cxt, int resourceId, List<Trip> objects){
@@ -81,6 +84,16 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
             // TODO: remove debug, calculate rating
             TextView tvRating = (TextView) convertView.findViewById(R.id.tvRating);
             tvRating.setText("10");
+
+            Random rand = new Random();
+            int rating = rand.nextInt(11);
+            if (rating >= 7 && rating <= 10)
+                tvRating.setBackgroundColor(getResources().getColor(goodRatingColor));
+            else if ( rating >= 4 && rating <= 6)
+                tvRating.setBackgroundColor(getResources().getColor( mediaRatingColor));
+            else if ( rating >= 0 && rating <= 3)
+                tvRating.setBackgroundColor(getResources().getColor( badRatingColor));
+
 
             if (selectedPosition == position) {
                 convertView.setSelected(true);
