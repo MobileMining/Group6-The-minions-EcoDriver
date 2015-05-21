@@ -70,7 +70,7 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
                 });
 
             TextView startTime = (TextView) convertView.findViewById(R.id.timeRecord);
-            startTime.setText("Drive from " + trip.getStartTime());
+            startTime.setText("Drive at " + trip.getStartTime());
 
             // TODO: remove debug
             //String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
@@ -78,21 +78,57 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
             //String startPlace = places[rand.nextInt(7)];
             //String destination = places[rand.nextInt(7)];
 
-            TextView tvplaces = (TextView) convertView.findViewById(R.id.placeRecord);
-            tvplaces.setText("Arrive at " + trip.getEndTime());
+/*            TextView tvplaces = (TextView) convertView.findViewById(R.id.placeRecord);
+            tvplaces.setText("Arrive at " + trip.getEndTime());*/
 
             // TODO: remove debug, calculate rating
             TextView tvRating = (TextView) convertView.findViewById(R.id.tvRating);
             tvRating.setText("10");
 
-            Random rand = new Random();
-            int rating = rand.nextInt(11);
-            if (rating >= 7 && rating <= 10)
-                tvRating.setBackgroundColor(getResources().getColor(goodRatingColor));
-            else if ( rating >= 4 && rating <= 6)
-                tvRating.setBackgroundColor(getResources().getColor( mediaRatingColor));
-            else if ( rating >= 0 && rating <= 3)
-                tvRating.setBackgroundColor(getResources().getColor( badRatingColor));
+
+            //change background color of Rating
+
+            if (tvRating.getText() == "1")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#003850"));
+            }
+            if (tvRating.getText() == "2")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#005852"));
+            }
+            if (tvRating.getText() == "3")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#4b8813"));
+            }
+            if (tvRating.getText() == "4")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#95ae1f"));
+            }
+            if (tvRating.getText() == "5")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#95ae1f"));
+            }
+            if (tvRating.getText() == "6")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#fbb601"));
+            }
+            if (tvRating.getText() == "7")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#fb9504"));
+            }
+            if (tvRating.getText() == "8")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#fb9504"));
+            }
+            if (tvRating.getText() == "9")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#fb9504"));
+            }
+            if (tvRating.getText() == "10")
+            {
+                tvRating.setBackgroundColor(Color.parseColor("#fa4c2a"));
+            }
+            //end of changecolor
 
 
             if (selectedPosition == position) {
