@@ -301,8 +301,10 @@ public class TrackDriving extends ActionBarActivity {
             trip.setStartMileage(startMileage);
             trip.setEndMileage(endMileage);
             trip.setFuelConsume((long)(startFuel - endFuel));
+            trip.setTotalWarning(warnings.size());
 
             dataSource.createTrip(trip, warnings, trackedLocations);
+            warnings = null;
             trackedLocations = null;
         }
     }
@@ -311,7 +313,7 @@ public class TrackDriving extends ActionBarActivity {
         @Override
         public void run() {
             if (lastWarningMilli + 15000 < elapsedRealtime()){
-                if (rpm > 2000) {
+                if (rpm > 2000 && rpm < 2500) {
                     warningMessage("RPM is high!", 1);
                 }
                 else if (rpm > 2500) {

@@ -19,7 +19,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.gu.gminions.db.DriveDataSource;
 import com.gu.gminions.db.LocationInfo;
 import com.gu.gminions.db.Trip;
+import com.gu.gminions.db.Warning;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +31,8 @@ import java.util.List;
 public class DriveDetails extends ActionBarActivity implements LoaderManager.LoaderCallbacks<List<LocationInfo>> {
     DriveDataSource dataSource;
     Trip trip;
+    List<Warning> warnings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +82,50 @@ public class DriveDetails extends ActionBarActivity implements LoaderManager.Loa
         }
 
         TextView tripLog = (TextView) findViewById(R.id.textViewTL);
-        tripLog.setText("At latitude/longitude, you have high RPM of ... and Consumed " +
-                "too much fuel of .... You could improve it by doing ... in future driving.");
 
-        // start loading locations
+        // start loading warning & locations
         if(trip != null) {
             dataSource = new DriveDataSource(this);
             dataSource.open();
+            warnings = new ArrayList();
+            warnings = dataSource.getTripAllWarnings(trip.getId());
             getSupportLoaderManager().initLoader(-1, null, this);
+        }
+
+        /*
+        Warning A-D
+        A: RPM between 2000-2500
+        B: RPM higher than 2500
+        C: Hard acceleration
+        D: Hard braking
+        */
+        int warningCountA = 0, warningCountB = 0, warningCountC = 0, warningCountD = 0;
+        if (warnings != null) {
+            for (Warning wn : warnings) {
+                if (wn.getType() == 1) {
+                    warningCountA++;
+                }
+                else if (wn.getType() == 2) {
+                    warningCountB++;
+                }
+                else if (wn.getType() == 3) {
+                    warningCountC++;
+                }
+                else if (wn.getType() == 4) {
+                    warningCountD++;
+                }
+            }
+        }
+
+        tripLog.setText("During the trip, you have received a total of " + trip.getTotalWarning() + " warnings.");
+        if (warningCountB != 0){
+            tripLog.setText(tripLog.getText() + " You've received " + warningCountB + " warnings for driving at very high RPM.");
+        }
+        if (warningCountC != 0){
+            tripLog.setText(tripLog.getText() + " You've hard accelerated " + warningCountA + " times. Hard accelerating consumes more fuel than necessary!");
+        }
+        if (warningCountD != 0){
+            tripLog.setText(tripLog.getText() + " You've hard braked " + warningCountA + " times. Try to plan ahead and slow down in time!");
         }
     }
 

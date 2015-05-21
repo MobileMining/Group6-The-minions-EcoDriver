@@ -124,6 +124,28 @@ public class DriveDataSource {
         return trips;
     }
 
+    public List<Warning> getTripAllWarnings(long tripId) {
+        List<Warning> warnings = new ArrayList();
+
+        Cursor cursor = database.query(
+                TABLE_WARNING,
+                COLUMNS_WARNING,
+                COLUMN_WARNING_TRIPID + " = " + tripId,
+                null,
+                null,
+                null,
+                null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            warnings.add(cursorToWarning(cursor));
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return warnings;
+    }
+
     public List<LocationInfo> getTripAllLocations(long tripId) {
         List<LocationInfo> locations = new ArrayList();
 
@@ -159,6 +181,20 @@ public class DriveDataSource {
         trip.setTotalWarning(cursor.getLong(valueIndex++));
         trip.setRating(cursor.getLong(valueIndex++));
         return trip;
+    }
+
+    private Warning cursorToWarning(Cursor cursor) {
+        Warning warning = new Warning();
+        int valueIndex = 0;
+        warning.setWarningId(cursor.getLong(valueIndex++));
+        warning.setTripId(cursor.getLong(valueIndex++));
+        warning.setTime(cursor.getString(valueIndex++));
+        warning.setSpeed(cursor.getInt(valueIndex++));
+        warning.setLatitude(cursor.getDouble(valueIndex++));
+        warning.setLongitude(cursor.getDouble(valueIndex++));
+        warning.setAltitude(cursor.getDouble(valueIndex++));
+        warning.setType(cursor.getInt(valueIndex++));
+        return warning;
     }
 
     private LocationInfo cursorToLocationInfo(Cursor cursor) {
