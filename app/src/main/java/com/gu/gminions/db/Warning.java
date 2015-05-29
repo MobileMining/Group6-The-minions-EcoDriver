@@ -11,8 +11,6 @@ public class Warning {
     private double longitude;
     private double altitude;
     private float speed;
-    //private long RPM;
-    //private long fuelConsume;
     private Integer type;
 
     public long getWarningId(){
@@ -70,24 +68,6 @@ public class Warning {
     public void setSpeed(float speed){
         this.speed = speed;
     }
-
-    /*
-    public long getRPM(){
-        return RPM;
-    }
-
-    public void setRPM(long RPM){
-        this.RPM = RPM;
-    }
-
-    public long getFuelConsume(){
-        return fuelConsume;
-    }
-
-    public void setFuelConsume(long fuelConsume){
-        this.fuelConsume = fuelConsume;
-    }
-    */
 
     public Integer getType(){
         return type;

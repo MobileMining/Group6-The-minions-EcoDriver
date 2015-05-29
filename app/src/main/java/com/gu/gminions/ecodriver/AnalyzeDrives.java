@@ -71,19 +71,8 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
             TextView startTime = (TextView) convertView.findViewById(R.id.timeRecord);
             startTime.setText("Drive at " + trip.getStartTime());
 
-            // TODO: remove debug
-            //String[] places = {"Stockholm", "Göteborg", "Malmö", "Borås", "Varberg", "Karlstad" ,"Helsingborg"};
-            //Random rand = new Random();
-            //String startPlace = places[rand.nextInt(7)];
-            //String destination = places[rand.nextInt(7)];
-
-/*            TextView tvplaces = (TextView) convertView.findViewById(R.id.placeRecord);
-            tvplaces.setText("Arrive at " + trip.getEndTime());*/
-
-            // TODO: remove debug, calculate rating
             TextView tvRating = (TextView) convertView.findViewById(R.id.tvRating);
             tvRating.setText("7");
-
 
             //change background color of Rating
 
