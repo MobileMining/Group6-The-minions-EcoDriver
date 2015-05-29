@@ -1,6 +1,13 @@
 # Group6-The-minions-EcoDriver
 Eco Driver Android app for DIT524 V15 Project: Systems development
 
+ Final version of project Include:
+- Working app (APK) 
+- Developer documentation (Vision, User stories, General system description, Major parts/component, design decision, UML, External dependencies)  
+- Post-mortem Report
+- User Manual
+- Class Diagram picture (In case it is not visible in document) 
+- Github Account info
 
 
 .apk can be found in Final Version of Project Documentation/apk
