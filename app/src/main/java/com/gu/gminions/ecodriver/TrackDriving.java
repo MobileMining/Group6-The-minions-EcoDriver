@@ -260,6 +260,7 @@ public class TrackDriving extends ActionBarActivity {
                 updateInterval,
                 updateDistance,
                 new LocationListener() {
+
                     @Override
                     public void onLocationChanged(Location location) {
                         trackedLocations.add(location);
