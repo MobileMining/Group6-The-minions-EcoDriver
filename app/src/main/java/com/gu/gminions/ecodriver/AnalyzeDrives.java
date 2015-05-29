@@ -72,7 +72,7 @@ public class AnalyzeDrives extends ActionBarActivity implements LoaderManager.Lo
             startTime.setText("Drive at " + trip.getStartTime());
 
             TextView tvRating = (TextView) convertView.findViewById(R.id.tvRating);
-            tvRating.setText("7");
+            tvRating.setText("1");
 
             //change background color of Rating
 
